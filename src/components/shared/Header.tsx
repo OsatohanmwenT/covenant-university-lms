@@ -21,28 +21,42 @@ const Header = async () => {
 
       <ul className="flex flex-wrap items-center gap-6 text-sm font-medium text-white">
         <li>
-          <Link href="/" className="hover:text-light-200">Home</Link>
+          <Link href="/" className="hover:text-light-200">
+            Home
+          </Link>
         </li>
         <li>
-          <Link href="/search" className="hover:text-light-200">Search</Link>
+          <Link href="/search" className="hover:text-light-200">
+            Search
+          </Link>
         </li>
 
         {user && (
           <>
             <li>
-              <Link href="/loans" className="hover:text-light-200">Loans</Link>
+              <Link href="/loans" className="hover:text-light-200">
+                Loans
+              </Link>
             </li>
             <li>
-              <Link href="/fines" className="hover:text-light-200">Fines</Link>
+              <Link href="/fines" className="hover:text-light-200">
+                Fines
+              </Link>
             </li>
             <li>
-              <Link href="/damage-reports" className="hover:text-light-200">Damages</Link>
+              <Link href="/damage-reports" className="hover:text-light-200">
+                Damages
+              </Link>
             </li>
             <li>
-              <Link href="/notifications" className="hover:text-light-200">Notifications</Link>
+              <Link href="/notifications" className="hover:text-light-200">
+                Notifications
+              </Link>
             </li>
             <li>
-              <Link href="/request" className="hover:text-light-200">Request</Link>
+              <Link href="/request" className="hover:text-light-200">
+                Request
+              </Link>
             </li>
           </>
         )}
@@ -58,16 +72,7 @@ const Header = async () => {
                 </Avatar>
               </Link>
             </li>
-            <li>
-              <form
-                action={async () => {
-                  "use server";
-                  await signOut();
-                }}
-              >
-                <SignOutButton />
-              </form>
-            </li>
+            <SignOutButton />
           </>
         ) : (
           <li>

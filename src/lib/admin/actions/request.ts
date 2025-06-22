@@ -2,9 +2,8 @@
 
 import { db } from "@/database";
 import { acquisitionRequest, notification, users } from "@/database/schema";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { queueEmail } from "@/lib/workflow";
-import { redirect } from "next/navigation";
 
 export const getAcquisitionRequests = async () => {
   try {

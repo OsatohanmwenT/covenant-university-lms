@@ -1,11 +1,13 @@
 export const FIELD_NAMES = {
   fullName: "Full name",
   email: "Email",
+  role: "Role",
   password: "Password",
 };
 
 export const FIELD_TYPES = {
   fullName: "text",
+  role: "select",
   email: "email",
   password: "password",
 };

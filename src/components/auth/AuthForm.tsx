@@ -26,6 +26,7 @@ import { Input } from "../ui/input";
 import { Eye, EyeOff, Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 interface Props<T extends FieldValues> {
   schema: ZodTypeAny;
@@ -38,7 +39,7 @@ const AuthForm = <T extends FieldValues>({
   type,
   schema,
   defaultValues,
-  onSubmit
+  onSubmit,
 }: Props<T>) => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +52,7 @@ const AuthForm = <T extends FieldValues>({
 
   const handleSubmit: SubmitHandler<T> = async (data) => {
     const result = await onSubmit(data);
-    console.log(result)
+    console.log(result);
 
     if (result.success) {
       toast.success(
@@ -81,55 +82,77 @@ const AuthForm = <T extends FieldValues>({
           : "Please complete all fields and upload a valid university ID to gain access to the library"}
       </p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6 w-full">
-          {Object.keys(defaultValues).map((field) => (
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="space-y-6 w-full"
+        >
+          {Object.keys(defaultValues).map((fieldKey) => (
             <FormField
-              key={field}
+              key={fieldKey}
               control={form.control}
-              name={field as Path<T>}
+              name={fieldKey as Path<T>}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="capitalize">
                     {FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}
                   </FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Input
-                        required
-                        type={
-                          field.name === "password"
-                            ? showPassword
-                              ? "text"
-                              : "password"
-                            : FIELD_TYPES[
-                                field.name as keyof typeof FIELD_TYPES
-                              ]
-                        }
-                        {...field}
-                        className="form-input pr-10"
-                      />
-                      {field.name === "password" && (
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword((prev) => !prev)}
-                          className="absolute right-4 top-1/2 -translate-y-1/2 text-white"
-                        >
-                          {showPassword ? (
-                            <EyeOff className="size-5" />
-                          ) : (
-                            <Eye className="size-5" />
-                          )}
-                        </button>
-                      )}
-                    </div>
+                    {field.name === "role" ? (
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger className="w-full h-auto form-input py-4">
+                          <SelectValue placeholder="Select role" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-dark-100 border-0 text-white">
+                          <SelectItem value="student">Student</SelectItem>
+                          <SelectItem value="staff">Staff</SelectItem>
+                          <SelectItem value="faculty">Faculty</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <div className="relative">
+                        <Input
+                          required
+                          type={
+                            field.name === "password"
+                              ? showPassword
+                                ? "text"
+                                : "password"
+                              : FIELD_TYPES[
+                                  field.name as keyof typeof FIELD_TYPES
+                                ]
+                          }
+                          {...field}
+                          className="form-input pr-10"
+                        />
+                        {field.name === "password" && (
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 text-white"
+                          >
+                            {showPassword ? (
+                              <EyeOff className="size-5" />
+                            ) : (
+                              <Eye className="size-5" />
+                            )}
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           ))}
+
           <Button type="submit" className="cursor-pointer form-btn">
-            {form.formState.isSubmitting && <Loader2Icon className="size-6 animate-spin" />}
+            {form.formState.isSubmitting && (
+              <Loader2Icon className="size-6 animate-spin" />
+            )}
             {isSignIn ? "Sign In" : "Sign Up"}
           </Button>
         </form>
