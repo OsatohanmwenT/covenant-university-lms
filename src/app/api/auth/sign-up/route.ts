@@ -5,13 +5,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const bodySchema = z.object({
-  firstName: z.string(),
-  middleName: z.string(),
-  lastName: z.string(),
+  fullName: z.string(),
   email: z.string().email(),
   password: z.string().min(8),
-  universityId: z.string(),
-  userType: z.enum(["student", "teacher", "admin"]),
+  role: z.enum(["student", "staff", "admin", "faculty"]),
 });
 
 export async function POST(req: NextRequest) {

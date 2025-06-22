@@ -1,7 +1,5 @@
 import React from "react";
 import Image from "next/image";
-// import BookCover from "@/components/BookCover";
-// import BorrowBook from "@/components/BorrowBook";
 import { db } from "@/database";
 import { loan, users } from "@/database/schema";
 import { and, eq, sql } from "drizzle-orm";
@@ -20,7 +18,6 @@ const ResourceOverview = async ({
   author,
   category,
   resourceImage,
-  description,
   userId,
 }: Props) => {
   const [user] = await db
@@ -29,7 +26,7 @@ const ResourceOverview = async ({
       isBorrowed: sql`IF(${loan.resourceId} IS NOT NULL, TRUE, FALSE)`,
       resourceId: loan.resourceId,
       isActive: users.isActive,
-      userType: users.userType,
+      role: users.role,
     })
     .from(users)
     .leftJoin(
@@ -61,7 +58,6 @@ const ResourceOverview = async ({
             <span className="font-semibold text-light-200">{category}</span>
           </p>
         </div>
-        <p className="book-description">{description}</p>
         {borrowingEligibility.isEligible && (
           <BorrowResource
             isBorrowed={user?.isBorrowed as "1" | "0"}

@@ -54,7 +54,7 @@ export const borrowResource = async (params: {
     }
 
     // 3. Set due date based on user type
-    const days = user.userType === "student" ? 20 : 28;
+    const days = user.role === "student" ? 20 : 28;
     const dueDate = dayjs().add(days, "day").toDate();
 
     // Insert new loan record
@@ -81,7 +81,7 @@ export const borrowResource = async (params: {
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto;">
           <h2 style="color: #4CAF50;">Book Borrowed Successfully</h2>
-          <p>Hi ${user.firstName},</p>
+          <p>Hi ${user.fullName},</p>
 
       <p>
         You have successfully borrowed the book titled 

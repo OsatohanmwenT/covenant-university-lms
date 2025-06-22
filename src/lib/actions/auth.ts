@@ -8,12 +8,10 @@ import { queueEmail } from "../workflow";
 
 export const signUp = async (params: AuthCredentials) => {
   const {
-    firstName,
-    lastName,
+    fullName,
     email,
     password,
-    universityId,
-    userType,
+    role,
   } = params;
 
   // Check if user already exists
@@ -31,13 +29,12 @@ export const signUp = async (params: AuthCredentials) => {
 
   try {
     await db.insert(users).values({
-      firstName,
-      lastName,
+      fullName,
       email,
       password: hashedPassword,
-      universityIdCard: universityId, // match schema
-      userType,
+      role,
       isActive: true,
+      registrationDate: new Date(),
     });
 
     // Auto sign in after sign up
@@ -45,7 +42,7 @@ export const signUp = async (params: AuthCredentials) => {
     await queueEmail({
       email,
       subject: "🎓 Welcome to CU LMS",
-      html: `<p>Hi ${firstName},</p><p>Your account was successfully created. You can now access CU Library LMS.</p>`,
+      html: `<p>Hi ${fullName},</p><p>Your account was successfully created. You can now access CU Library LMS.</p>`,
     });
 
     return { success: true };
@@ -57,5 +54,6 @@ export const signUp = async (params: AuthCredentials) => {
 
 import { getServerSession } from "next-auth"; // or wherever you defined it
 import { authOptions } from "@/auth";
+import { AuthCredentials } from "@/types";
 
 export const auth = async () => getServerSession(authOptions);

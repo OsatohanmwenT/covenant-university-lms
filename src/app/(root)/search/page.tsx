@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 import { useResources } from "@/hooks/useResources";
 import SearchInput from "@/components/shared/SearchInput";

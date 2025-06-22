@@ -41,7 +41,7 @@ const UserTag = async () => {
               }}
               className="font-semibold text-xl size-16"
             >
-              {getInitials(`${user.firstName} ${user.lastName}` || "IN")}
+              {getInitials(user.fullName || "IN")}
             </AvatarFallback>
           </Avatar>
         </div>
@@ -55,17 +55,13 @@ const UserTag = async () => {
             />
             <p className="text-light-100 text-sm">Verified student</p>
           </div>
-          <p className="font-semibold text-xl text-white">{user.firstName} {user.lastName}</p>
+          <p className="font-semibold text-xl text-white">{user.fullName}</p>
           <p className="font-medium text-light-100">{user.email}</p>
         </div>
       </div>
       <div className="mt-14">
         <p className="text-light-100">University</p>
         <p className="font-semibold text-xl text-white">Covenant University</p>
-      </div>
-      <div className="mt-10">
-        <p className="text-light-100">Student Id</p>
-        <p className="font-semibold text-xl text-white">{user.universityIdCard}</p>
       </div>
     </div>
   );

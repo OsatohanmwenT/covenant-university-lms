@@ -65,7 +65,7 @@ const ResourceList: React.FC<ResourceListProps> = ({
           <ResourceCard key={resource.resourceId} {...resource} />
         ))}
       </ul>) : (
-        <ul className="grid grid-cols-2 gap-6">
+        <ul className="grid grid-cols-1 md:grid-cols-3 mt-8 gap-6">
           {resources.map((resource) => (
             <BorrowCard key={resource.resourceId} {...resource} />
           ))}

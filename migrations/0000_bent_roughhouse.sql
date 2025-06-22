@@ -79,31 +79,25 @@ CREATE TABLE `resources` (
 	`resource_id` int AUTO_INCREMENT NOT NULL,
 	`unique_identifier` varchar(50) NOT NULL,
 	`title` varchar(200) NOT NULL,
-	`resource_image` varchar(255),
-	`description` text,
 	`author` varchar(100),
 	`publication_date` date,
 	`category` varchar(50),
 	`format` varchar(50),
 	`location` varchar(100),
 	`status` varchar(20),
+	`resource_image` varchar(255),
 	CONSTRAINT `resources_resource_id` PRIMARY KEY(`resource_id`),
 	CONSTRAINT `resources_unique_identifier_unique` UNIQUE(`unique_identifier`)
 );
 --> statement-breakpoint
 CREATE TABLE `users` (
 	`user_id` int AUTO_INCREMENT NOT NULL,
-	`first_name` varchar(50) NOT NULL,
-	`middle_name` varchar(50),
-	`last_name` varchar(50) NOT NULL,
-	`password` varchar(255) NOT NULL,
-	`user_type` varchar(20) NOT NULL,
-	`university_id_card` varchar(20),
+	`full_name` varchar(150) NOT NULL,
+	`role` enum('student','staff','faculty','admin') NOT NULL,
 	`email` varchar(100) NOT NULL,
 	`registration_date` timestamp DEFAULT (now()),
 	`is_active` boolean NOT NULL,
 	CONSTRAINT `users_user_id` PRIMARY KEY(`user_id`),
-	CONSTRAINT `users_university_id_card_unique` UNIQUE(`university_id_card`),
 	CONSTRAINT `users_email_unique` UNIQUE(`email`)
 );
 --> statement-breakpoint

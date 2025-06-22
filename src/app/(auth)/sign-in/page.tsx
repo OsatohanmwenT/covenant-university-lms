@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import AuthForm from "@/components/auth/AuthForm";
 import { signInSchema } from "@/lib/validation";
 import React from "react";
+import { AuthCredentials } from "@/types";
 
 const Page = () => {
    const signInWithCredentials = async (

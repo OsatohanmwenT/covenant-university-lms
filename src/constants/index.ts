@@ -1,16 +1,12 @@
 export const FIELD_NAMES = {
-  firstName: "First name",
-  lastName: "Last name",
+  fullName: "Full name",
   email: "Email",
-  universityId: "University ID Number",
   password: "Password",
 };
 
 export const FIELD_TYPES = {
-  firstName: "text",
-  lastName: "text",
+  fullName: "text",
   email: "email",
-  universityId: "string",
   password: "password",
 };
 
@@ -41,3 +37,31 @@ export const variantStyles: Record<BookCoverVariant, string> = {
   regular: "book-cover_regular",
   wide: "book-cover_wide",
 };
+
+export const adminSideBarLinks = [
+  {
+    img: "/icons/admin/home.svg",
+    route: "/admin",
+    text: "Home",
+  },
+  {
+    img: "/icons/admin/users.svg",
+    route: "/admin/users",
+    text: "All Users",
+  },
+  {
+    img: "/icons/admin/book.svg",
+    route: "/admin/resources",
+    text: "All Resources",
+  },
+  {
+    img: "/icons/admin/bookmark.svg",
+    route: "/admin/borrow-records",
+    text: "Borrow Records",
+  },
+  {
+    img: "/icons/admin/user.svg",
+    route: "/admin/account-requests",
+    text: "Account Requests",
+  },
+];

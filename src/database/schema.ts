@@ -7,17 +7,15 @@ import {
   decimal,
   text,
   timestamp,
+  mysqlEnum,
 } from "drizzle-orm/mysql-core";
 
 // 1. USER
 export const users = mysqlTable('users', {
   userId: int('user_id').autoincrement().primaryKey(),
-  firstName: varchar('first_name', { length: 50 }).notNull(),
-  middleName: varchar('middle_name', { length: 50 }),
-  lastName: varchar('last_name', { length: 50 }).notNull(),
+  fullName: varchar('full_name', { length: 150 }).notNull(),
+  role: mysqlEnum('role', ['student', 'staff', 'faculty', 'admin']).notNull(),
   password: varchar('password', { length: 255 }).notNull(),
-  userType: varchar('user_type', { length: 20 }).notNull(),
-  universityIdCard: varchar('university_id_card', { length: 20 }).unique(),
   email: varchar("email", { length: 100 }).unique().notNull(),
   registrationDate: timestamp("registration_date").defaultNow(),
   isActive: boolean('is_active').notNull()
@@ -28,14 +26,13 @@ export const resources = mysqlTable('resources', {
   resourceId: int('resource_id').autoincrement().primaryKey(),
   uniqueIdentifier: varchar('unique_identifier', { length: 50 }).unique().notNull(),
   title: varchar('title', { length: 200 }).notNull(),
-  resourceImage: varchar('resource_image', { length: 255 }),
-  description: text('description'),
   author: varchar('author', { length: 100 }),
   publicationDate: date('publication_date'),
   category: varchar('category', { length: 50 }),
   format: varchar('format', { length: 50 }),
   location: varchar('location', { length: 100 }),
-  status: varchar('status', { length: 20 })
+  status: varchar('status', { length: 20 }),
+  resourceImage: varchar('resource_image', { length: 255 })
 });
 
 // Loan Table

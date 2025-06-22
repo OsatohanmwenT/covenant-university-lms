@@ -15,6 +15,7 @@ declare module "next-auth" {
       name?: string | null;
       email?: string | null;
       image?: string | null;
+      role?: string | null;
     };
   }
   interface User {
@@ -22,6 +23,7 @@ declare module "next-auth" {
     name?: string | null;
     email?: string | null;
     image?: string | null;
+    role?: string | null;
   }
 }
 
@@ -50,12 +52,11 @@ export const authOptions = {
         if (!user) return null;
 
         const isValid = await compare(password, user.password);
-        if (!isValid) return null;
-
-        return {
+        if (!isValid) return null;        return {
           id: user.userId.toString(),
           email: user.email,
-          name: `${user.firstName} ${user.lastName}`,
+          name: user.fullName,
+          role: user.role,
         };
       },
     }),
@@ -68,6 +69,7 @@ export const authOptions = {
       if (user) {
         token.id = user.id;
         token.name = user.name;
+        token.role = user.role;
       }
       return token;
     },
@@ -75,6 +77,7 @@ export const authOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.name = token.name as string;
+        session.user.role = token.role as string;
       }
       return session;
     },

@@ -40,14 +40,12 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Providers>
-        <body
-          className={`${bebasNeue.variable} ${ibmPlexSans.className} antialiased`}
-        >
-          {children}
-          <Toaster />
-        </body>
-      </Providers>
+      <body
+        className={`${bebasNeue.variable} ${ibmPlexSans.className} antialiased`}
+      >
+        <Providers>{children}</Providers>
+        <Toaster />
+      </body>
     </html>
   );
 }

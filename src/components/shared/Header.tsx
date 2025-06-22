@@ -6,9 +6,10 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/actions/auth";
 import { signOut } from "next-auth/react";
+import SignOutButton from "./SignOutBtn";
 
 const Header = async () => {
- const session = await auth();
+  const session = await auth();
   const user = session?.user;
 
   return (
@@ -18,30 +19,40 @@ const Header = async () => {
         <span className="text-white text-3xl font-bold">CU LMS</span>
       </Link>
 
-      <ul className="flex flex-row items-center gap-8">
+      <ul className="flex flex-wrap items-center gap-6 text-sm font-medium text-white">
         <li>
-          <Link
-            href="/"
-            className="text-base hover:text-light-200 cursor-pointer capitalize text-white"
-          >
-            Home
-          </Link>
+          <Link href="/" className="hover:text-light-200">Home</Link>
         </li>
         <li>
-          <Link
-            href="/search"
-            className="text-base hover:text-light-200 cursor-pointer capitalize text-white"
-          >
-            Search
-          </Link>
+          <Link href="/search" className="hover:text-light-200">Search</Link>
         </li>
+
+        {user && (
+          <>
+            <li>
+              <Link href="/loans" className="hover:text-light-200">Loans</Link>
+            </li>
+            <li>
+              <Link href="/fines" className="hover:text-light-200">Fines</Link>
+            </li>
+            <li>
+              <Link href="/damage-reports" className="hover:text-light-200">Damages</Link>
+            </li>
+            <li>
+              <Link href="/notifications" className="hover:text-light-200">Notifications</Link>
+            </li>
+            <li>
+              <Link href="/request" className="hover:text-light-200">Request</Link>
+            </li>
+          </>
+        )}
 
         {user ? (
           <>
             <li>
               <Link href="/my-profile">
                 <Avatar>
-                  <AvatarFallback className="bg-amber-100">
+                  <AvatarFallback className="bg-amber-100 text-black">
                     {getInitials(user.name || user.email || "U")}
                   </AvatarFallback>
                 </Avatar>
@@ -54,16 +65,7 @@ const Header = async () => {
                   await signOut();
                 }}
               >
-                <Button className="max-sm:bg-transparent max-sm:p-0 max-sm:rounded-none max-sm:hover:bg-transparent">
-                  <Image
-                    className="sm:hidden object-cover"
-                    src="/icons/logout.svg"
-                    alt="logout"
-                    width={25}
-                    height={25}
-                  />
-                  <span className="max-sm:hidden">Logout</span>
-                </Button>
+                <SignOutButton />
               </form>
             </li>
           </>

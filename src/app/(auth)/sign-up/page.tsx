@@ -11,12 +11,10 @@ const Page = () => {
       onSubmit={signUp}
       schema={signUpSchema}
       defaultValues={{
-        firstName: "",
-        lastName: "",
+        fullName: "",
         email: "",
         password: "",
-        universityId: "",
-        userType: "student",
+        role: "student",
       }}
       type="SIGN_UP"
     />
