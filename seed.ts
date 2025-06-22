@@ -1,0 +1,230 @@
+import { db } from "@/database";
+
+const booksData = [
+  {
+    "uniqueIdentifier": "CSS-DEPTH-001",
+    "title": "CSS in Depth",
+    "resourceImage": "https://images.manning.com/360/480/resize/book/f/235f14b-90f6-43b8-8abd-62bc945d1624/Grant-2ed-HI.png",
+    "description": "CSS in Depth by Keith J. Grant is a comprehensive guide for web developers who want to go beyond the basics of CSS and master the intricacies of styling web pages. The book is designed for intermediate to advanced developers who are already familiar with CSS but want to deepen their understanding and leverage its full potential.",
+    "author": "Keith J. Grant",
+    "publicationDate": "2018-03-15",
+    "category": "Web Development",
+    "format": "Book",
+    "location": "A1-001",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "HTML-CSS-002",
+    "title": "HTML and CSS: Design and Build Websites",
+    "resourceImage": "https://m.media-amazon.com/images/I/613ZTDcDsiL._SL1500_.jpg",
+    "description": "Whether you're a complete beginner or someone looking to brush up on HTML and CSS, this book provides a solid foundation and practical skills that can be applied immediately to real-world projects.",
+    "author": "Jon Duckett",
+    "publicationDate": "2014-08-12",
+    "category": "Web Development",
+    "format": "Book",
+    "location": "A1-002",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "SYS-DESIGN-003",
+    "title": "System Design Interview",
+    "resourceImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG48-LJrXeG40bdltKLJkNtTn-iytOLLmzEQ&s",
+    "description": "System Design Interview: An Insider's Guide by Alex Xu is a must-read for software engineers and professionals preparing for system design interviews. The book provides a detailed overview of the principles and techniques needed to excel in system design interviews, which are often a key part of the hiring process at top tech companies.",
+    "author": "Alex Xu",
+    "publicationDate": "2020-06-05",
+    "category": "System Design",
+    "format": "Book",
+    "location": "B2-001",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "CS-DISTILLED-004",
+    "title": "Computer Science Distilled",
+    "resourceImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0ZACskc2ps0M3NkUSPg1UBHk6bhvi7BsgLw&s",
+    "description": "Computer Science Distilled by Wladston Ferreira Filho is a concise and approachable introduction to the core concepts of computer science. Designed for beginners and those looking to strengthen their problem-solving skills, the book breaks down complex topics into digestible, easy-to-understand pieces.",
+    "author": "Wladston Ferreira Filho",
+    "publicationDate": "2017-01-23",
+    "category": "Computer Science",
+    "format": "Book",
+    "location": "C1-001",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "ASSEMBLY-005",
+    "title": "The Art of Assembly Language",
+    "resourceImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThZnXvqgN-mHFaE_v7M7Aw8TaWmEyL88VGcw&s",
+    "description": "The Art of Assembly Language by Randall Hyde is a comprehensive and engaging introduction to assembly language programming. Known for its clarity and depth, the book provides readers with a solid foundation in low-level programming concepts, which are essential for understanding how computers operate at their core.",
+    "author": "Randall Hyde",
+    "publicationDate": "2010-09-14",
+    "category": "Programming",
+    "format": "Book",
+    "location": "D1-001",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "GOOD-SOFTWARE-006",
+    "title": "Seriously Good Software",
+    "resourceImage": "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781617296291/seriously-good-software-9781617296291_hr.jpg",
+    "description": "This book is perfect for developers who want to elevate their coding skills beyond functionality, making their work robust and professional. Written in an accessible style, Seriously Good Software bridges the gap between theoretical principles and practical application.",
+    "author": "Marco Faella",
+    "publicationDate": "2019-11-07",
+    "category": "Programming",
+    "format": "Book",
+    "location": "D1-002",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "DB-FUNDAMENTALS-007",
+    "title": "Fundamentals of Database Systems",
+    "resourceImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGm7M-8Mbz6_jStUsZZdydzBoR4Mp2SUIzhg&s",
+    "description": "Fundamentals of Database Systems by Ramez Elmasri and Shamkant B. Navathe is a comprehensive textbook that serves as a cornerstone for understanding database systems and their applications. This book is widely used in academia and the industry to teach and learn foundational and advanced database concepts.",
+    "author": "Ramez Elmasri and Shamkant B. Navathe",
+    "publicationDate": "2016-04-18",
+    "category": "Computer Science",
+    "format": "Book",
+    "location": "C1-002",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "OS-CONCEPTS-008",
+    "title": "Operating System Concepts",
+    "resourceImage": "https://images-cdn.ubuy.ae/64abd0b11c0d507b453932f4-operating-system-concepts-10th-edition.jpg",
+    "description": "Operating System Concepts, often referred to as the \"Dinosaur Book,\" is a definitive guide to understanding the inner workings of operating systems. Written by Abraham Silberschatz, Peter B. Galvin, and Greg Gagne, this book is an essential resource for students, educators, and professionals in the field of computer science.",
+    "author": "Abraham Silberschatz, Peter B. Galvin, and Greg Gagne",
+    "publicationDate": "2018-12-03",
+    "category": "Computer Science",
+    "format": "Book",
+    "location": "C1-003",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "ALGORITHMS-009",
+    "title": "Algorithms",
+    "resourceImage": "https://algs4.cs.princeton.edu/cover.png",
+    "description": "Algorithms by Robert Sedgewick and Kevin Wayne is a comprehensive and authoritative guide to understanding algorithms and their role in modern computing. Widely regarded as a foundational text in computer science, the book covers a vast array of algorithms, ranging from sorting and searching to graph processing and string manipulation.",
+    "author": "Robert Sedgewick and Kevin Wayne",
+    "publicationDate": "2011-03-24",
+    "category": "Computer Science",
+    "format": "Book",
+    "location": "C1-004",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "CLEAN-CODER-010",
+    "title": "The Clean Coder",
+    "resourceImage": "https://m.media-amazon.com/images/I/51E2055ZGUL._SL1000_.jpg",
+    "description": "The Clean Coder by Robert C. Martin is an essential guide for software developers who aspire to reach the highest standards of professionalism. Written by one of the most respected figures in the software engineering community, this book transcends technical skills, focusing on the mindset, ethics, and practices that define a professional programmer.",
+    "author": "Robert C. Martin",
+    "publicationDate": "2011-05-23",
+    "category": "Software",
+    "format": "Book",
+    "location": "E1-001",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "LEAN-STARTUP-011",
+    "title": "The Lean Startup",
+    "resourceImage": "https://mindville.ng/wp-content/uploads/2022/03/10127019.jpg",
+    "description": "The Lean Startup by Eric Ries is a guide to building and managing startups in a way that maximizes innovation while minimizing wasted effort. The book introduces the concept of the \"Lean Startup\" methodology, which focuses on quickly turning ideas into products, testing them with real customers, and learning from their feedback to refine and improve.",
+    "author": "Eric Ries",
+    "publicationDate": "2011-09-13",
+    "category": "Software",
+    "format": "Book",
+    "location": "E1-002",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "ATOMIC-HABITS-012",
+    "title": "Atomic Habits",
+    "resourceImage": "https://m.media-amazon.com/images/I/81F90H7hnML.jpg",
+    "description": "Atomic Habits by James Clear is a book about how small changes in daily habits can lead to significant transformations over time. Clear emphasizes that habits are the compound interest of self-improvement—tiny actions repeated consistently will eventually produce remarkable results.",
+    "author": "James Clear",
+    "publicationDate": "2018-10-16",
+    "category": "Self Help",
+    "format": "Book",
+    "location": "F1-001",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "REACT-ACTION-013",
+    "title": "React in Action",
+    "resourceImage": "https://m.media-amazon.com/images/I/711p4MyGIBL.jpg",
+    "description": "React in Action by Mark Tielens Thomas is a practical guide to mastering React, a popular JavaScript library for building user interfaces. The book is ideal for developers looking to learn React from the ground up and for those seeking to deepen their understanding of its ecosystem.",
+    "author": "Mark Tielens Thomas",
+    "publicationDate": "2018-05-28",
+    "category": "Web Development",
+    "format": "Book",
+    "location": "A1-003",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "JS-GOOD-PARTS-014",
+    "title": "JavaScript: The Good Parts",
+    "resourceImage": "https://m.media-amazon.com/images/I/7185IMvz88L._SL1500_.jpg",
+    "description": "JavaScript: The Good Parts by Douglas Crockford is a concise guide to understanding and using the best features of JavaScript while avoiding its pitfalls. This book is designed for developers who want to write clean, efficient, and reliable JavaScript code by focusing only on the language's strengths.",
+    "author": "Douglas Crockford",
+    "publicationDate": "2008-05-08",
+    "category": "Programming",
+    "format": "Book",
+    "location": "D1-003",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "ELOQUENT-JS-015",
+    "title": "Eloquent Javascript",
+    "resourceImage": "https://eloquentjavascript.net/img/cover.jpg",
+    "description": "Eloquent JavaScript by Marijn Haverbeke is a deep dive into JavaScript, designed for developers who want to master the language. The book combines clear explanations, practical examples, and exercises to help readers understand both the basics and advanced features of JavaScript.",
+    "author": "Marijn Haverbeke",
+    "publicationDate": "2018-12-04",
+    "category": "Programming",
+    "format": "Book",
+    "location": "D1-004",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "FULLSTACK-REACT-016",
+    "title": "Fullstack React: The Complete Guide to ReactJS and Friends",
+    "resourceImage": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1495796544i/32705383.jpg",
+    "description": "Fullstack React: The Complete Guide to ReactJS and Friends by Accomazzo, Greif, and Murray is a comprehensive resource for developers who want to master React and build full-stack applications.",
+    "author": "Accomazzo, Greif, and Murray",
+    "publicationDate": "2017-02-20",
+    "category": "Web Development",
+    "format": "Book",
+    "location": "A1-004",
+    "status": "available"
+  },
+  {
+    "uniqueIdentifier": "CRACKING-CODING-017",
+    "title": "Cracking the Coding Interview",
+    "resourceImage": "https://m.media-amazon.com/images/I/61mIq2iJUXL._AC_UF1000,1000_QL80_.jpg",
+    "description": "Cracking the Coding Interview by Gayle Laakmann McDowell is a comprehensive guide for software engineers preparing for technical interviews. The book is packed with insights, strategies, and over 180 programming questions that simulate real interview scenarios.",
+    "author": "Gayle Laakmann McDowell",
+    "publicationDate": "2015-07-01",
+    "category": "Programming",
+    "format": "Book",
+    "location": "D1-005",
+    "status": "available"
+  }
+];
+
+import { resources } from "@/database/schema";
+
+async function seedDatabase() {
+    try {
+        console.log("🌱 Seeding database...");
+
+        await db.insert(resources).values(
+            booksData.map(book => ({
+                ...book,
+                publicationDate: new Date(book.publicationDate)
+            }))
+        )
+
+        console.log("✅ Books seeded successfully.");
+
+    } catch (error) {
+        console.error("❌ Error seeding books:", error);
+    }
+}
+
+seedDatabase();
