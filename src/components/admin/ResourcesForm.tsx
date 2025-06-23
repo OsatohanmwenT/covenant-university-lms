@@ -14,13 +14,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Resource } from "@/types";
-import FileUpload from "@/components/shared/FileUpload";
 import { createResource, updateResource } from "@/lib/admin/actions/resource";
 import { resourceSchema } from "@/lib/validation";
+import FileUpload from "./FileUpload";
 
 interface Props extends Partial<Resource> {
   type: "create" | "update";
@@ -34,46 +33,54 @@ const ResourceForm = ({ type, resource }: Props) => {
   const form = useForm<z.infer<typeof resourceSchema>>({
     resolver: zodResolver(resourceSchema),
     defaultValues: {
+      uniqueIdentifier: resource?.uniqueIdentifier || "",
       title: resource?.title || "",
       author: resource?.author || "",
       category: resource?.category || "",
       format: resource?.format || "",
       location: resource?.location || "",
-      publicationDate: resource?.publicationDate?.toISOString().split("T")[0] || "",
+      publicationDate:
+        resource?.publicationDate?.toISOString().split("T")[0] || "",
       resourceImage: resource?.resourceImage || "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof resourceSchema>) => {
     setIsLoading(true);
-    let result;
+    const preparedValues = {
+      ...values,
+      publicationDate: new Date(values.publicationDate),
+      status: "available"
+    };
 
-    if (type === "create") {
-      result = await createResource(values);
-    } else {
-      result = await updateResource(resource?.resourceId, values);
-    }
+    const result =
+      type === "create"
+        ? await createResource(preparedValues)
+        : await updateResource(resource?.resourceId, preparedValues);
 
     setIsLoading(false);
 
     if (result?.success) {
-      toast({
-        title: "Success",
-        description: type === "create" ? "Resource created successfully" : "Resource updated successfully",
-      });
+      toast.success(
+        type === "create"
+          ? "Resource created successfully"
+          : "Resource updated successfully"
+      );
       router.push(`/admin/resources/${result.data.resourceId}`);
     } else {
-      toast({
-        title: "Error",
-        description: result?.message,
-        variant: "destructive",
-      });
+      toast.error(
+        result?.message || "An error occurred while processing the resource."
+      );
     }
   };
 
   return (
     <>
-      {isLoading && <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-50">Loading...</div>}
+      {isLoading && (
+        <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-50">
+          Loading...
+        </div>
+      )}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -83,7 +90,30 @@ const ResourceForm = ({ type, resource }: Props) => {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input required placeholder="Resource title" {...field} />
+                  <Input
+                    className="book-form_input"
+                    required
+                    placeholder="Resource title"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="uniqueIdentifier"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>ISBN</FormLabel>
+                <FormControl>
+                  <Input
+                    className="book-form_input"
+                    placeholder="Resource ISBN"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -97,7 +127,11 @@ const ResourceForm = ({ type, resource }: Props) => {
               <FormItem>
                 <FormLabel>Author</FormLabel>
                 <FormControl>
-                  <Input placeholder="Resource author" {...field} />
+                  <Input
+                    className="book-form_input"
+                    placeholder="Resource author"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -111,7 +145,11 @@ const ResourceForm = ({ type, resource }: Props) => {
               <FormItem>
                 <FormLabel>Category</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g. Science, Fiction, Engineering" {...field} />
+                  <Input
+                    className="book-form_input"
+                    placeholder="e.g. Science, Fiction, Engineering"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -125,7 +163,11 @@ const ResourceForm = ({ type, resource }: Props) => {
               <FormItem>
                 <FormLabel>Format</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g. Book, PDF, DVD" {...field} />
+                  <Input
+                    className="book-form_input"
+                    placeholder="e.g. Book, PDF, DVD"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -139,7 +181,11 @@ const ResourceForm = ({ type, resource }: Props) => {
               <FormItem>
                 <FormLabel>Location</FormLabel>
                 <FormControl>
-                  <Input placeholder="Shelf location or storage path" {...field} />
+                  <Input
+                    className="book-form_input"
+                    placeholder="Shelf location or storage path"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -153,7 +199,7 @@ const ResourceForm = ({ type, resource }: Props) => {
               <FormItem>
                 <FormLabel>Publication Date</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input className="book-form_input" type="date" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -169,6 +215,7 @@ const ResourceForm = ({ type, resource }: Props) => {
                 <FormControl>
                   <FileUpload
                     type="image"
+                    variant="light"
                     accept="image/*"
                     placeholder="Upload a resource image"
                     folder="resources/images"
@@ -181,8 +228,12 @@ const ResourceForm = ({ type, resource }: Props) => {
             )}
           />
 
-          <Button type="submit" className="w-full">
-            {isLoading ? "Saving..." : type === "create" ? "Add Resource" : "Update Resource"}
+          <Button type="submit" className="w-full h-auto py-5 cursor-pointer">
+            {isLoading
+              ? "Saving..."
+              : type === "create"
+              ? "Add Resource"
+              : "Update Resource"}
           </Button>
         </form>
       </Form>

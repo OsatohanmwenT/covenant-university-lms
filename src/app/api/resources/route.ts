@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/database";
 import { resources } from "@/database/schema";
-import { and, ilike } from "drizzle-orm";
+import { and, ilike, or } from "drizzle-orm";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -13,7 +13,7 @@ export async function GET(req: Request) {
   const offset = (page - 1) * limit;
 
   const whereClause = and(
-    ilike(resources.title, `%${query}%`),
+    or(ilike(resources.title, `%${query}%`),ilike(resources.author, `%${query}%`)),
     ilike(resources.format, `%${format}%`)
   );
 

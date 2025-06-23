@@ -48,7 +48,7 @@ export const signUpSchema = z
     return true;
   }, {
     message: "Role does not match email domain",
-    path: ["role"], // shows the error under the email field
+    path: ["email"], // shows the error under the email field
   });
 
 export const signInSchema = z.object({
@@ -70,12 +70,12 @@ export const signInSchema = z.object({
 });
 
 export const resourceSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  author: z.string().optional().nullable(),
-  category: z.string().optional().nullable(),
-  format: z.string().optional().nullable(),
-  location: z.string().optional().nullable(),
-  publicationDate: z.string().optional().nullable(),
-  resourceImage: z.string().optional().nullable(),
-  description: z.string().optional().nullable(),
+  uniqueIdentifier: z.string().min(2),
+  title: z.string().min(2),
+  author: z.string().min(2),
+  resourceImage: z.string().nonempty(),
+  publicationDate: z.string().min(4),
+  category: z.string().min(2),
+  format: z.string().min(2),
+  location: z.string().min(2),
 });

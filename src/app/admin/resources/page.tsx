@@ -24,7 +24,7 @@ const Page = async () => {
       }
       createButton={
         <Button className="bg-primary-admin" asChild>
-          <Link className="text-white" href="/admin/books/new">
+          <Link className="text-white" href="/admin/resources/new">
             + Create a new book
           </Link>
         </Button>

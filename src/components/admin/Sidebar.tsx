@@ -23,7 +23,7 @@ const Sidebar = ({ session }: { session: Session }) => {
           />
           <h1 className="hidden xl:block">CU LMS</h1>
         </div>
-        <div className="mt-10 flex flex-col gap-5">
+        <div className="mt-3 flex flex-col gap-5">
           {adminSideBarLinks.map((link) => {
             const isSelected =
               (link.route !== "/admin" &&

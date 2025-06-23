@@ -1,132 +1,131 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { MoreHorizontal, FileText, ArrowDownToLine, Edit, Trash } from 'lucide-react';
+import React from "react";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { formatDate } from '@/lib/utils';
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import Link from "next/link";
+import dayjs from "dayjs";
+import { Button } from "@/components/ui/button";
+import BookCover from "../shared/BookCover";
+import { Receipt } from "lucide-react";
+import ModeButton from "./ModeButton";
 
-const LoansTable = ({ loans }) => {
-  // Function to get status badge
-  const getStatusBadge = (status, dueDate) => {
-    const now = new Date();
-    const dueDateObj = new Date(dueDate);
-    
-    if (status === 'returned') {
-      return <Badge variant="outline" className="bg-gray-100">Returned</Badge>;
-    }
-    
-    if (now > dueDateObj && status === 'borrowed') {
-      return <Badge variant="destructive">Overdue</Badge>;
-    }
-    
-    return <Badge variant="default" className="bg-blue-100 text-blue-800 hover:bg-blue-100">Borrowed</Badge>;
+interface Loan {
+  loanId: number;
+  resourceId: number;
+  userId: number;
+  dateBorrowed: Date;
+  dueDate: Date;
+  dateReturned: Date | null;
+  status: string | null;
+  user: {
+    userId: number;
+    fullName: string;
+    email: string;
+    role: string;
   };
+  resource: {
+    resourceId: number;
+    title: string | null;
+    author: string | null;
+    uniqueIdentifier: string | null;
+    resourceImage: string | null;
+    category: string | null;
+  };
+}
 
+interface LoansTableProps {
+  loans: Loan[]; // Pass the current user's role from parent
+}
+
+const LoansTable = ({ loans }: LoansTableProps) => {
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full bg-white rounded-lg overflow-hidden">
-        <thead className="bg-gray-50 text-gray-600 text-sm">
-          <tr>
-            <th className="py-3 px-4 text-left">Loan ID</th>
-            <th className="py-3 px-4 text-left">Resource</th>
-            <th className="py-3 px-4 text-left">User</th>
-            <th className="py-3 px-4 text-left">Borrowed Date</th>
-            <th className="py-3 px-4 text-left">Due Date</th>
-            <th className="py-3 px-4 text-left">Return Date</th>
-            <th className="py-3 px-4 text-left">Status</th>
-            <th className="py-3 px-4 text-right">Actions</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100">
-          {loans.length === 0 ? (
-            <tr>
-              <td colSpan={8} className="py-6 text-center text-gray-500">
-                No loans found.
-              </td>
-            </tr>
-          ) : (
-            loans.map((loan) => (
-              <tr key={loan.loanId} className="hover:bg-gray-50">
-                <td className="py-3 px-4">{loan.loanId}</td>
-                <td className="py-3 px-4">
-                  <div className="flex items-center">
-                    {loan.resource?.resourceImage ? (
-                      <img
-                        src={loan.resource.resourceImage}
-                        alt={loan.resource.title}
-                        className="w-10 h-10 rounded object-cover mr-3"
-                      />
-                    ) : (
-                      <div className="w-10 h-10 bg-gray-200 rounded mr-3"></div>
-                    )}
-                    <div>
-                      <div className="font-medium">{loan.resource?.title}</div>
-                      <div className="text-xs text-gray-500">{loan.resource?.uniqueIdentifier}</div>
-                    </div>
+    <Table>
+      <TableHeader className="table-head">
+        <TableRow>
+          <TableHead className="max-xl:w-[200px]">Book</TableHead>
+          <TableHead>User</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Borrowed date</TableHead>
+          <TableHead>Return date</TableHead>
+          <TableHead>Due date</TableHead>
+          <TableHead>Receipt</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody className="table-body hide-scrollbar">
+        {loans.length === 0 ? (
+          <TableRow>
+            <TableCell colSpan={7} className="text-center py-6 text-muted-foreground">
+              No loans found.
+            </TableCell>
+          </TableRow>
+        ) : (
+          loans.map((loan) => (
+            <TableRow key={loan.loanId}>
+              <TableCell>
+                <Link
+                  className="flex items-center gap-2"
+                  href={`/admin/resources/${loan.resourceId}`}
+                >
+                  <BookCover
+                    variant="extraSmall"
+                    title={loan.resource.title}
+                    resourceImage={loan.resource?.resourceImage || ""}
+                  />
+                  <div className="flex flex-col">
+                    <p className="font-medium line-clamp-1">
+                      {loan.resource?.title}
+                    </p>
+                    <p className="text-xs text-dark-400">
+                      {loan.resource?.uniqueIdentifier}
+                    </p>
                   </div>
-                </td>
-                <td className="py-3 px-4">
-                  <div>
-                    <div className="font-medium">{loan.user?.fullName}</div>
-                    <div className="text-xs text-gray-500">{loan.user?.email}</div>
-                  </div>
-                </td>
-                <td className="py-3 px-4">
-                  {formatDate(loan.dateBorrowed)}
-                </td>
-                <td className="py-3 px-4">
-                  {formatDate(loan.dueDate)}
-                </td>
-                <td className="py-3 px-4">
-                  {loan.dateReturned ? formatDate(loan.dateReturned) : '-'}
-                </td>
-                <td className="py-3 px-4">
-                  {getStatusBadge(loan.status, loan.dueDate)}
-                </td>
-                <td className="py-3 px-4 text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem className="flex items-center gap-2">
-                        <FileText className="h-4 w-4" />
-                        <span>View Details</span>
-                      </DropdownMenuItem>
-                      {loan.status === 'borrowed' && (
-                        <DropdownMenuItem className="flex items-center gap-2">
-                          <ArrowDownToLine className="h-4 w-4" />
-                          <span>Mark as Returned</span>
-                        </DropdownMenuItem>
-                      )}
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem className="flex items-center gap-2">
-                        <Edit className="h-4 w-4" />
-                        <span>Edit</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-2 text-red-600">
-                        <Trash className="h-4 w-4" />
-                        <span>Delete</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
+                </Link>
+              </TableCell>
+              <TableCell>
+                <div className="flex flex-col">
+                  <p className="font-medium text-sm">{loan.user.fullName}</p>
+                  <p className="text-xs text-light-100">{loan.user.email}</p>
+                </div>
+              </TableCell>
+              <TableCell>
+                {/* Replace status badge with ModeButton for admins */}
+                <ModeButton
+                  initialMode={loan.status as any}
+                  userId={loan.loanId}
+                  type="STATUS"
+                  currentUserRole={loan.status}
+                />
+              </TableCell>
+              <TableCell className="font-semibold">
+                {dayjs(loan.dateBorrowed).format("MMM DD, YYYY")}
+              </TableCell>
+              <TableCell className="font-semibold">
+                {loan.dateReturned
+                  ? dayjs(loan.dateReturned).format("MMM DD, YYYY")
+                  : "-"}
+              </TableCell>
+              <TableCell className="font-semibold">
+                {dayjs(loan.dueDate).format("MMM DD, YYYY")}
+              </TableCell>
+              <TableCell>
+                <Button
+                  variant="secondary"
+                  className="bg-sky-50 shadow-none rounded-xl hover:bg-sky-100 text-blue-600"
+                >
+                  <Receipt color="fill-blue-600" />
+                  <p>Generate</p>
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))
+        )}
+      </TableBody>
+    </Table>
   );
 };
 

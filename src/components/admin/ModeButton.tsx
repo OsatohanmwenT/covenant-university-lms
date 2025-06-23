@@ -14,10 +14,11 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { changeUserRole } from "@/lib/admin/actions/user";
 import { toast } from "sonner";
-import { ROLE } from "@/types";
+import { ROLE, STATUS } from "@/types";
+import { changeLoanStatus } from "@/lib/admin/actions/loan";
 
 interface Mode {
-  id: ROLE;
+  id: ROLE | STATUS;
   name: string;
   color: string;
   bgColor: string;
@@ -50,17 +51,44 @@ const roles: Mode[] = [
   },
 ];
 
+const statuses: Mode[] = [
+  {
+    id: "borrowed",
+    name: "BORROWED",
+    color: "text-violet-700",
+    bgColor: "bg-violet-50 hover:!bg-violet-200",
+  },
+  {
+    id: "returned",
+    name: "RETURNED",
+    color: "text-blue-700",
+    bgColor: "bg-blue-50 hover:!bg-blue-200",
+  },
+  {
+    id: "late-return",
+    name: "LATE RETURN",
+    color: "text-red-700",
+    bgColor: "bg-red-50 hover:!bg-red-200",
+  },
+];
+
 interface ModeButtonProps {
-  initialMode: ROLE;
+  initialMode: ROLE | STATUS;
   userId: number;
   type: "ROLE" | "STATUS";
+  currentUserRole?: ROLE | STATUS | string | null; // Add this prop
 }
 
-const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type }) => {
-  const [selectedMode, setSelectedMode] = React.useState<ROLE>(initialMode);
-  const availableModes = roles
+const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type, currentUserRole }) => {
+  // Admin-only guard for role changes
+  if (type === "ROLE" && currentUserRole !== "admin") {
+    return null;
+  }
 
-  const handleChangeMode = async (newMode: ROLE) => {
+  const [selectedMode, setSelectedMode] = React.useState<ROLE | STATUS>(initialMode);
+  const availableModes = type === "ROLE" ? roles : statuses;
+
+  const handleChangeMode = async (newMode: ROLE | STATUS) => {
     setSelectedMode(newMode);
 
     try {
@@ -73,6 +101,11 @@ const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type }) =>
         } else {
           toast.error(result.error);
         }
+      } else if (type === "STATUS") {
+        const result = await changeLoanStatus(userId, newMode as STATUS);
+
+        setSelectedMode(result?.data.status);
+        toast.success("Status changed successfully");
       } 
     } catch (error) {
       toast.error("An unexpected error occurred");

@@ -34,27 +34,27 @@ const Header = async () => {
         {user && (
           <>
             <li>
-              <Link href="/loans" className="hover:text-light-200">
+              <Link href="/my-profile/loans" className="hover:text-light-200">
                 Loans
               </Link>
             </li>
             <li>
-              <Link href="/fines" className="hover:text-light-200">
+              <Link href="/my-profile/fines" className="hover:text-light-200">
                 Fines
               </Link>
             </li>
             <li>
-              <Link href="/damage-reports" className="hover:text-light-200">
+              <Link href="/my-profile/damage-reports" className="hover:text-light-200">
                 Damages
               </Link>
             </li>
             <li>
-              <Link href="/notifications" className="hover:text-light-200">
+              <Link href="/my-profile/notifications" className="hover:text-light-200">
                 Notifications
               </Link>
             </li>
             <li>
-              <Link href="/request" className="hover:text-light-200">
+              <Link href="/my-profile/request" className="hover:text-light-200">
                 Request
               </Link>
             </li>

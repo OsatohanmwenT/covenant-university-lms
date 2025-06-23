@@ -2,6 +2,7 @@ export interface Resource {
   resourceId: number;
   title: string;
   author: string | null;
+  uniqueIdentifier: string | null;
   resourceImage: string | null;
   category: string | null;
   format: string | null;
@@ -41,3 +42,4 @@ export interface AuthCredentials {
 }
 
 export type ROLE = "admin" | "student" | "staff" | "faculty";
+export type STATUS = "returned" | "borrowed" | "late-return";

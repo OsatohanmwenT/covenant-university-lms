@@ -19,10 +19,6 @@ const Page = async () => {
 
   const userId = parseInt(session.user.id);
 
-  // Current loans
-
-  const today = new Date();
-
   const currentLoans = await db
     .select({
       loanId: loan.loanId,
@@ -41,7 +37,6 @@ const Page = async () => {
       and(
         eq(loan.userId, userId),
         isNull(loan.dateReturned),
-        lt(loan.dueDate, today)
       )
     )
     .orderBy(loan.dueDate);

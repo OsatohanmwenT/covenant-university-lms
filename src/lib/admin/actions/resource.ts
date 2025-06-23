@@ -1,14 +1,19 @@
 "use server"
 
 import { db } from "@/database";
-import { resources } from "@/database/schema";
+import { resources, inventoryAction } from "@/database/schema";
 import { Resource } from "@/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import dayjs from "dayjs";
 
 export const createResource = async (params: Partial<Resource>) => {
   try {
-    const result = await db.insert(resources).values({
+    if (!params.uniqueIdentifier) {
+      throw new Error("uniqueIdentifier is required");
+    }
+    await db.insert(resources).values({
+      uniqueIdentifier: params.uniqueIdentifier as string,
       title: params.title || "",
       author: params.author || null,
       category: params.category || null,
@@ -16,15 +21,21 @@ export const createResource = async (params: Partial<Resource>) => {
       location: params.location || null,
       publicationDate: params.publicationDate ? new Date(params.publicationDate) : null,
       resourceImage: params.resourceImage || null,
-      description: params.description || null,
       status: "available",
-    }).returning();
+    });
+
+    // Fetch the newly created resource
+    const created = await db
+      .select()
+      .from(resources)
+      .where(eq(resources.uniqueIdentifier, params.uniqueIdentifier as string))
+      .limit(1);
 
     revalidatePath("/admin/resources");
 
     return {
       success: true,
-      data: result.length ? JSON.parse(JSON.stringify(result[0])) : null,
+      data: created.length ? created[0] : null,
     };
   } catch (error) {
     console.error(error);
@@ -68,15 +79,21 @@ export const deleteResource = async (id: number) => {
 
 export const updateResource = async (
   id: number | undefined,
-  params: Resource
+  params:  Partial<Resource>
 ) => {
   if (!id || !params) return null;
 
   try {
+    // Destructure and filter uniqueIdentifier
+    const {
+      uniqueIdentifier,
+      ...rest
+    } = params;
     await db
       .update(resources)
       .set({
-        ...params, // Optional: adapt this if not used
+        ...rest,
+        uniqueIdentifier: typeof uniqueIdentifier === "string" ? uniqueIdentifier : undefined,
       })
       .where(eq(resources.resourceId, id));
 
@@ -99,3 +116,35 @@ export const updateResource = async (
     };
   }
 };
+
+/**
+ * Record an inventory action (add, remove, relocate, etc.)
+ */
+export async function recordInventoryAction({
+  resourceId,
+  actionType,
+  notes,
+  performedByUserId,
+  approvedByUserId,
+}: {
+  resourceId: number;
+  actionType: string;
+  notes?: string;
+  performedByUserId: number;
+  approvedByUserId?: number;
+}) {
+  try {
+    await db.insert(inventoryAction).values({
+      resourceId,
+      actionType,
+      actionDate: dayjs().toDate(),
+      notes: notes || null,
+      performedByUserId,
+      approvedByUserId: approvedByUserId || null,
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error recording inventory action:", error);
+    return { success: false, error: "Failed to record inventory action" };
+  }
+}

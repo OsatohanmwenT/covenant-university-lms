@@ -17,7 +17,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
     .where(eq(users.userId, Number(session.user.id)))
     .limit(1);
 
-  // if (user?.role !== "admin") redirect("/");
+  if (user?.role !== "admin") redirect("/");
 
 
 

@@ -42,7 +42,7 @@ const ResourceTable = ({ resources }: { resources: Omit<Resource, "description">
             <TableHead className="w-[300px]">Title</TableHead>
             <TableHead className="w-[300px]">Author</TableHead>
             <TableHead className="w-[150px]">Category</TableHead>
-            <TableHead>Date Added</TableHead>
+            <TableHead>Publish date</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>

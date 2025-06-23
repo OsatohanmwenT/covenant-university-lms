@@ -41,7 +41,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  
 
   --color-dark-100: var(--dark-100);
   --color-dark-200: var(--dark-200);
@@ -52,30 +51,30 @@
   --color-dark-700: var(--dark-700);
   --color-dark-800: var(--dark-800);
 
-  --color-primary: #E7C9A5;
-  --color-primary-admin: #25388C;
-  
-  --color-green: #027A48;
-  --color-green-100: #ECFDF3;
-  --color-green-400: #4C7B62;
-  --color-green-500: #2CC171;
-  --color-green-800: #027A48;
-  
-  --color-red: #EF3A4B;
-  --color-red-400: #F46F70;
-  --color-red-500: #E27233;
-  --color-red-800: #EF3A4B;
-  
-  --color-blue-100: #0089F1;
-  
-  --color-light-100: #D6E0FF;
-  --color-light-200: #EED1AC;
-  --color-light-300: #F8F8FF;
-  --color-light-400: #EDF1F1;
-  --color-light-500: #8D8D8D;
-  --color-light-600: #F9FAFB;
-  --color-light-700: #E2E8F0;
-  --color-light-800: #F8FAFC;
+  --color-primary: #e7c9a5;
+  --color-primary-admin: #25388c;
+
+  --color-green: #027a48;
+  --color-green-100: #ecfdf3;
+  --color-green-400: #4c7b62;
+  --color-green-500: #2cc171;
+  --color-green-800: #027a48;
+
+  --color-red: #ef3a4b;
+  --color-red-400: #f46f70;
+  --color-red-500: #e27233;
+  --color-red-800: #ef3a4b;
+
+  --color-blue-100: #0089f1;
+
+  --color-light-100: #d6e0ff;
+  --color-light-200: #eed1ac;
+  --color-light-300: #f8f8ff;
+  --color-light-400: #edf1f1;
+  --color-light-500: #8d8d8d;
+  --color-light-600: #f9fafb;
+  --color-light-700: #e2e8f0;
+  --color-light-800: #f8fafc;
 
   --font-ibm-plex-sans: "IBM Plex Sans", sans-serif;
   --font-bebas-neue: var(--bebas-neue);
@@ -116,13 +115,13 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   --dark-100: oklch(0.2125 0.0109 260.67);
-  --dark-200: #3A354E;
+  --dark-200: #3a354e;
   --dark-300: #232839;
-  --dark-400: #1E293B;
-  --dark-500: #0F172A;
-  --dark-600: #333C5C;
-  --dark-700: #464F6F;
-  --dark-800: #1E2230;
+  --dark-400: #1e293b;
+  --dark-500: #0f172a;
+  --dark-600: #333c5c;
+  --dark-700: #464f6f;
+  --dark-800: #1e2230;
 }
 
 .dark {
@@ -187,7 +186,7 @@
   }
 }
 
-@layer components{
+@layer components {
   .root-container {
     @apply flex min-h-screen flex-1 flex-col bg-cover bg-dark-100 w-full bg-top bg-[url(/images/pattern.webp)];
   }
@@ -200,8 +199,20 @@
     @apply w-full min-h-14 border-none text-base font-bold placeholder:font-normal text-white placeholder:text-light-100 focus-visible:ring-0 focus-visible:shadow-none !bg-dark-300;
   }
 
+  .book-form_input {
+    @apply min-h-14 border border-gray-100 !bg-white p-4 text-base font-semibold placeholder:font-normal placeholder:text-slate-500;
+  }
+
+  .book-form_btn {
+    @apply min-h-14 w-full bg-primary-admin hover:bg-primary-admin/95;
+  }
+
   .book-title {
     @apply mt-2 line-clamp-2 text-base font-semibold text-white sm:text-xl;
+  }
+
+  .upload-btn {
+    @apply flex min-h-14 w-full items-center justify-center gap-1.5 rounded-md;
   }
 
   .book-genre {
@@ -216,12 +227,11 @@
     @apply mt-10 flex flex-wrap gap-12 max-sm:justify-center sm:gap-10;
   }
 
-
   .book-btn {
     @apply mt-3 min-h-14 w-full font-bebas-neue text-base !bg-dark-600 text-primary;
   }
 
-   .auth-container {
+  .auth-container {
     @apply relative flex flex-col-reverse text-light-100 sm:flex-row;
   }
 
@@ -286,7 +296,7 @@
     @apply text-xl font-semibold text-primary;
   }
 
-.book-overview {
+  .book-overview {
     @apply flex flex-col-reverse items-center gap-12 sm:gap-32 xl:flex-row xl:gap-8;
   }
 
@@ -331,129 +341,126 @@
     @apply mt-2 text-3xl font-semibold text-white sm:text-5xl;
   }
 
-
   /* admin */
 
   .admin-container {
-        @apply flex w-[calc(100%-264px)] flex-1 flex-col bg-light-300 p-5 sm:p-10;
-    }
+    @apply flex w-[calc(100%-264px)] flex-1 flex-col bg-light-300 p-5 sm:p-10;
+  }
 
   .admin-header {
-        @apply flex lg:items-end items-start justify-between lg:flex-row flex-col gap-5 sm:mb-10 mb-5;
-    }
+    @apply flex lg:items-end items-start justify-between lg:flex-row flex-col gap-5 sm:mb-10 mb-5;
+  }
 
-    /* Search */
-    .admin-search {
-        @apply flex border border-neutral-300 min-h-14 items-center gap-1 rounded-md bg-light-600 px-4 lg:max-w-md w-full;
-    }
+  /* Search */
+  .admin-search {
+    @apply flex border border-neutral-300 min-h-14 items-center gap-1 rounded-md bg-light-600 px-4 lg:max-w-md w-full;
+  }
 
-    .admin-search_input {
-        @apply w-full !border-0 !shadow-none bg-transparent outline-none focus-visible:!outline-none focus-visible:!ring-0 focus:border-0;
-    }
+  .admin-search_input {
+    @apply w-full !border-0 !shadow-none bg-transparent outline-none focus-visible:!outline-none focus-visible:!ring-0 focus:border-0;
+  }
 
-    /* Sidebar */
-    .admin-sidebar {
-        @apply sticky left-0 top-0 flex h-dvh flex-col justify-between bg-white px-5 pb-5 pt-10;
-    }
+  /* Sidebar */
+  .admin-sidebar {
+    @apply sticky left-0 top-0 flex h-dvh flex-col justify-between bg-white px-5 pb-5 pt-10;
+  }
 
-    .admin-sidebar .logo {
-        @apply flex flex-row items-center gap-2 border-b border-dashed border-primary-admin/20 pb-10 max-md:justify-center;
-    }
+  .admin-sidebar .logo {
+    @apply flex flex-row items-center gap-2 border-b border-dashed border-primary-admin/20 pb-10 max-md:justify-center;
+  }
 
-    .admin-sidebar .logo h1 {
-        @apply text-2xl font-semibold text-primary-admin max-md:hidden;
-    }
+  .admin-sidebar .logo h1 {
+    @apply text-2xl font-semibold text-primary-admin max-md:hidden;
+  }
 
-    .admin-sidebar .link {
-        @apply flex flex-row items-center w-full gap-2 rounded-lg px-5 py-3.5 max-md:justify-center;
-    }
+  .admin-sidebar .link {
+    @apply flex flex-row items-center w-full gap-2 rounded-lg px-5 py-3.5 max-md:justify-center;
+  }
 
-    .admin-sidebar .link p {
-        @apply text-base font-medium max-xl:hidden;
-    }
+  .admin-sidebar .link p {
+    @apply text-base font-medium max-xl:hidden;
+  }
 
-    .admin-sidebar .user {
-        @apply my-8 flex w-full flex-row gap-2 rounded-full border border-light-400 px-2 xl:px-6 py-2 shadow-sm max-md:px-2;
-    }
+  .admin-sidebar .user {
+    @apply my-8 flex w-full flex-row gap-2 rounded-full border border-light-400 px-2 xl:px-6 py-2 shadow-sm max-md:px-2;
+  }
 
+  .table {
+    @apply container mx-auto rounded-md overflow-hidden;
+  }
 
-    .table {
-        @apply container mx-auto rounded-md overflow-hidden;
-    }
+  .table-head th {
+    @apply text-dark-600 !font-semibold text-sm lg:text-base bg-light-300 p-4;
+  }
 
-    .table-head th {
-        @apply text-dark-600 !font-semibold text-sm lg:text-base bg-light-300 p-4;
-    }
+  .table-body td {
+    @apply px-4 py-3;
+  }
 
-    .table-body td {
-        @apply px-4 py-3;
-    }
+  .table-body .role-btn {
+    @apply rounded-3xl h-auto px-3 text-sm shadow-none font-semibold !py-1;
+  }
 
-    .table-body .role-btn {
-        @apply rounded-3xl h-auto px-3 text-sm shadow-none font-semibold !py-1;
-    }
+  .table-body .view {
+    @apply rounded-md text-blue-400 flex items-center justify-center gap-1 font-semibold shadow-none;
+  }
 
-    .table-body .view {
-        @apply rounded-md text-blue-400 flex items-center justify-center gap-1 font-semibold shadow-none;
-    }
+  /* Book BookForm */
+  .book-form_input {
+    @apply min-h-14 border border-gray-100 bg-light-600 p-4 text-base font-semibold placeholder:font-normal placeholder:text-slate-500;
+  }
 
-    /* Book BookForm */
-    .book-form_input {
-        @apply min-h-14 border border-gray-100 bg-light-600 p-4 text-base font-semibold placeholder:font-normal placeholder:text-slate-500;
-    }
+  .book-form_btn {
+    @apply min-h-14 w-full bg-primary-admin hover:bg-primary-admin/95;
+  }
 
-    .book-form_btn {
-        @apply min-h-14 w-full bg-primary-admin hover:bg-primary-admin/95;
-    }
+  /* Home Page */
+  .view-btn {
+    @apply bg-light-300 rounded-md text-primary-admin font-semibold hover:bg-light-300/80 shadow-none;
+  }
 
-    /* Home Page */
-    .view-btn {
-        @apply bg-light-300 rounded-md text-primary-admin font-semibold hover:bg-light-300/80 shadow-none;
-    }
+  .add-new-book_btn {
+    @apply mt-7 mb-3 bg-light-300 py-4 px-3 flex flex-row items-center rounded-xl gap-4;
+  }
 
-    .add-new-book_btn {
-        @apply mt-7 mb-3 bg-light-300 py-4 px-3 flex flex-row items-center rounded-xl gap-4;
-    }
+  .add-new-book_btn div:first-child {
+    @apply size-12 bg-white rounded-full flex justify-center items-center;
+  }
 
-    .add-new-book_btn div:first-child {
-        @apply size-12 bg-white rounded-full flex justify-center items-center;
-    }
+  .add-new-book_btn p:first-child {
+    @apply font-semibold text-lg text-dark-400;
+  }
 
-    .add-new-book_btn p:first-child {
-        @apply font-semibold text-lg text-dark-400;
-    }
+  /* Statistics */
+  .stat {
+    @apply bg-white rounded-xl p-5 space-y-5 flex-1;
+  }
 
-    /* Statistics */
-    .stat {
-        @apply bg-white rounded-xl p-5 space-y-5 flex-1;
-    }
+  .stat-info {
+    @apply flex justify-between items-center gap-5;
+  }
 
-    .stat-info {
-        @apply flex justify-between items-center gap-5;
-    }
+  .stat-label {
+    @apply font-medium text-base text-light-500 whitespace-nowrap;
+  }
 
-    .stat-label {
-        @apply font-medium text-base text-light-500 whitespace-nowrap;
-    }
+  .stat-count {
+    @apply font-semibold text-3xl text-dark-400;
+  }
 
-    .stat-count {
-        @apply font-semibold text-3xl text-dark-400;
-    }
-
-    .back-btn {
-        @apply mb-10 w-fit border border-light-300 bg-white text-xs font-medium text-dark-200 hover:bg-light-300;
-    }
-
+  .back-btn {
+    @apply mb-10 w-fit border border-light-300 bg-white text-xs font-medium text-dark-200 hover:bg-light-300;
+  }
 }
 
 .gradient-vertical {
-    background: linear-gradient(180deg, #12141d 0%, #12151f 100%);
-  }
+  background: linear-gradient(180deg, #12141d 0%, #12151f 100%);
+}
 
-  .gradient-gray {
-    background: linear-gradient(270deg, #37363a 0%, #353637 100%);
-  }
+.gradient-gray {
+  background: linear-gradient(270deg, #37363a 0%, #353637 100%);
+}
 
-  .gradient-blue {
-    background: linear-gradient(180deg, #232839 0%, #12141d 100%);
-  }
+.gradient-blue {
+  background: linear-gradient(180deg, #232839 0%, #12141d 100%);
+}

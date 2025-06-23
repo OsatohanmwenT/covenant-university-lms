@@ -58,12 +58,22 @@ export const adminSideBarLinks = [
   },
   {
     img: "/icons/admin/bookmark.svg",
-    route: "/admin/borrow-records",
-    text: "Borrow Records",
+    route: "/admin/loans",
+    text: "Loan Records",
   },
   {
     img: "/icons/admin/user.svg",
     route: "/admin/account-requests",
     text: "Account Requests",
+  },
+  {
+    img: "/icons/admin/",
+    route: "/admin/fines",
+    text: "Fines",
+  },
+  {
+    img: "/icons/admin/bookmark.svg",
+    route: "/admin/requests",
+    text: "Acquisition Requests",
   },
 ];

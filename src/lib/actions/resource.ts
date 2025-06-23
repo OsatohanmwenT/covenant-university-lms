@@ -73,6 +73,7 @@ export const borrowResource = async (params: {
       userId: userId,
       dateBorrowed: dayjs().toDate(),
       dueDate: dueDate,
+      status: "borrowed",
     });
 
     await queueEmail({
