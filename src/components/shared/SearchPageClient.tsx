@@ -1,3 +1,5 @@
+"use client"; 
+
 import Image from "next/image";
 import { useResources } from "@/hooks/useResources";
 import SearchInput from "@/components/shared/SearchInput";
