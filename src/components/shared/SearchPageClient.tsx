@@ -1,15 +1,13 @@
-// components/SearchPageClient.tsx
-"use client";
-
-import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 import { useResources } from "@/hooks/useResources";
 import SearchInput from "@/components/shared/SearchInput";
 import ResourceList from "@/components/resource/ResourceList";
 import ResourceCardSkeleton from "@/components/resource/ResourceCardSkeleton";
-import Image from "next/image";
 import ClearSearchButton from "@/components/shared/ClearButton";
+import { useSearchParams } from "next/navigation";
 
-const SearchPageClient = () => {
+// This component uses searchParams and needs to be wrapped in Suspense
+const SearchContent = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   const format = searchParams.get("format") || "";
@@ -26,7 +24,8 @@ const SearchPageClient = () => {
         </p>
         <div className="w-full">
           <h1 className="text-white font-semibold text-4xl md:text-6xl">
-            Explore and Search for <span className="text-light-200">Any Book</span> In Our Library
+            Explore and Search for{" "}
+            <span className="text-light-200">Any Book</span> In Our Library
           </h1>
         </div>
         <SearchInput query={query} />
@@ -56,7 +55,8 @@ const SearchPageClient = () => {
                 <Image src="/images/no-books.png" width={300} height={300} alt="not found" />
                 <p className="text-xl text-white font-semibold">No Result Found</p>
                 <p className="text-light-100 max-w-sm text-center font-light">
-                  We couldn’t find any books matching your search. Try using different keywords or check for typos.
+                  We couldn't find any books matching your search. Try using
+                  different keywords or check for typos.
                 </p>
                 <ClearSearchButton />
               </div>
@@ -68,4 +68,4 @@ const SearchPageClient = () => {
   );
 };
 
-export default SearchPageClient;
+export default SearchContent;
