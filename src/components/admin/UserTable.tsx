@@ -79,6 +79,7 @@ const UserTable = ({ users }: { users: User[] }) => {
                   userId={user.userId}
                   initialMode={user.role as ROLE}
                   type="ROLE"
+                  currentUserRole={user.role}
                 />
               </TableCell>
               <TableCell className="text-center">
