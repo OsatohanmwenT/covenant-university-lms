@@ -2,7 +2,6 @@
 import { db } from "@/database";
 import { acquisitionRequest, resources, users } from "@/database/schema";
 import { eq } from "drizzle-orm";
-import dayjs from "dayjs";
 
 export async function getPendingAcquisitionRequests() {
   return db

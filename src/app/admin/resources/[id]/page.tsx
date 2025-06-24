@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Users, Clock, AlertCircle } from "lucide-react";
+import { ArrowLeft, Users, AlertCircle } from "lucide-react";
 import { db } from "@/database";
 import { resources, loan, users } from "@/database/schema";
 import { eq } from "drizzle-orm";
@@ -39,9 +39,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
   
   // Check if the resource is currently borrowed
   const isBorrowed = currentLoans.some(loan => !loan.dateReturned);
-  
-  // Get borrowing history count
-  const borrowCount = currentLoans.length;
 
   if (!resourceDetail) {
     return (

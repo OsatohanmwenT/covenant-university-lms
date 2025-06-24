@@ -2,7 +2,7 @@ import React from "react";
 import { auth } from "@/lib/actions/auth";
 import { db } from "@/database";
 import { loan, resources } from "@/database/schema";
-import { eq, and, isNull, desc, lt } from "drizzle-orm";
+import { eq, and, isNull, desc } from "drizzle-orm";
 import ResourceList from "@/components/resource/ResourceList";
 import dayjs from "dayjs";
 import Link from "next/link";

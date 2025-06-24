@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -85,7 +85,7 @@ const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type, curr
     return null;
   }
 
-  const [selectedMode, setSelectedMode] = React.useState<ROLE | STATUS>(initialMode);
+  const [selectedMode, setSelectedMode] = useState<ROLE | STATUS>(initialMode);
   const availableModes = type === "ROLE" ? roles : statuses;
 
   const handleChangeMode = async (newMode: ROLE | STATUS) => {

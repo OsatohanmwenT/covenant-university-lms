@@ -3,7 +3,7 @@ import { auth } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/database";
 import { notification, loan, resources } from "@/database/schema";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import dayjs from "dayjs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

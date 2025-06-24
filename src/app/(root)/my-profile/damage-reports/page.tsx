@@ -93,10 +93,10 @@ const DamageReportsPage = async () => {
       {userDamageReports.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 rounded-lg">
           <p className="text-lg text-gray-600">
-            You haven't submitted any damage reports yet
+            You haven&apos;t submitted any damage reports yet
           </p>
           <p className="text-gray-500 mt-2">
-            If you've found a damaged resource, please report it to library staff
+            If you&apos;ve found a damaged resource, please report it to library staff
           </p>
         </div>
       ) : (

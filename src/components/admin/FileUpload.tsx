@@ -59,7 +59,7 @@ const FileUpload = ({
       const data = await response.json();
       const { signature, expire, token, publicKey } = data;
       return { signature, expire, token, publicKey };
-    } catch (error) {
+    } catch {
       toast.error("Authentication failed");
       throw new Error("Upload authentication failed");
     }
@@ -163,7 +163,7 @@ const FileUpload = ({
           }}
           className={cn("upload-btn", styles.button)}
         >
-          <img src="/icons/upload.svg" alt="upload" width={20} height={20} />
+          <Image src="/icons/upload.svg" alt="upload" width={20} height={20} />
           <p className={cn("text-base", styles.placeholder)}>{placeholder}</p>
           {uploadedFile.filePath && (
             <p className={cn("upload-filename", styles.text)}>

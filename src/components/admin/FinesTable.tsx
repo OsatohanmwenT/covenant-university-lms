@@ -10,10 +10,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import dayjs from "dayjs";
+import Image from "next/image";
 
 interface Fine {
-  fineId: string;
-  loanId: string;
+  fineId: number;
+  loanId: number;
   amountPerDay: number;
   daysOverdue: number;
   totalAmount: number;
@@ -51,7 +52,9 @@ const FinesTable = ({ fines }: { fines: Fine[] }) => {
             <TableRow key={fine.fineId}>
               <TableCell>
                 <div className="flex items-center gap-2">
-                  <img
+                  <Image
+                    width={40}
+                    height={40}
                     src={fine.resource.resourceImage}
                     alt={fine.resource.title}
                     className="w-10 h-10 object-cover rounded"
@@ -75,8 +78,12 @@ const FinesTable = ({ fines }: { fines: Fine[] }) => {
               <TableCell className="font-semibold">
                 {dayjs(fine.dueDate).format("MMM DD, YYYY")}
               </TableCell>
-              <TableCell className="font-semibold">{fine.daysOverdue}</TableCell>
-              <TableCell className="font-semibold">₦{fine.totalAmount}</TableCell>
+              <TableCell className="font-semibold">
+                {fine.daysOverdue}
+              </TableCell>
+              <TableCell className="font-semibold">
+                ₦{fine.totalAmount}
+              </TableCell>
               <TableCell>
                 {fine.isPaid ? (
                   <Badge className="bg-green-100 text-green-800 hover:bg-green-100">

@@ -2,13 +2,12 @@ import React from "react";
 import { auth } from "@/lib/actions/auth";
 import { db } from "@/database";
 import { fine, loan, resources } from "@/database/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Clock, AlertCircle, Receipt, CheckCircle } from "lucide-react";
+import { AlertCircle, CheckCircle } from "lucide-react";
 
 const PayFineButton = ({ fineId }: { fineId: number }) => {
   return (

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { approveAcquisitionRequest, rejectAcquisitionRequest } from "@/lib/admin/actions/request";
+import { approveAcquisitionRequest, rejectAcquisitionRequest } from "@/lib/admin/actions/acquisition";
 import { CheckCircle, XCircle } from "lucide-react";
 import { toast } from "sonner";
 
@@ -44,17 +44,12 @@ const AcquisitionRequestActions = ({ request, adminId }: AcquisitionRequestActio
   const handleApprove = async () => {
     setIsSubmitting(true);
     try {
-      const result = await approveAcquisitionRequest(request.requestId, adminId);
-      
-      if (result.success) {
-        toast.success("The acquisition request has been approved successfully.");
-        setIsApproveDialogOpen(false);
-        // Force a page reload to get the updated data
-        window.location.reload();
-      } else {
-        toast.error(result.error || "Failed to approve request");
-      }
-    } catch (error) {
+      await approveAcquisitionRequest(request.requestId, adminId);
+      toast.success("The acquisition request has been approved successfully.");
+      setIsApproveDialogOpen(false);
+      // Force a page reload to get the updated data
+      window.location.reload();
+    } catch {
       toast.error("An unexpected error occurred");
     } finally {
       setIsSubmitting(false);
@@ -66,20 +61,14 @@ const AcquisitionRequestActions = ({ request, adminId }: AcquisitionRequestActio
       toast.error("Please provide a reason for rejection");
       return;
     }
-    
     setIsSubmitting(true);
     try {
-      const result = await rejectAcquisitionRequest(request.requestId, rejectionReason);
-      
-      if (result.success) {
-        toast.error("The acquisition request has been rejected");
-        setIsRejectDialogOpen(false);
-        // Force a page reload to get the updated data
-        window.location.reload();
-      } else {
-        toast.error("Failed to reject request");
-      }
-    } catch (error) {
+      await rejectAcquisitionRequest(request.requestId);
+      toast.error("The acquisition request has been rejected");
+      setIsRejectDialogOpen(false);
+      // Force a page reload to get the updated data
+      window.location.reload();
+    } catch {
       toast.error("An unexpected error occurred");
     } finally {
       setIsSubmitting(false);
@@ -121,7 +110,7 @@ const AcquisitionRequestActions = ({ request, adminId }: AcquisitionRequestActio
           <DialogHeader>
             <DialogTitle>Approve Resource Request</DialogTitle>
             <DialogDescription>
-              Are you sure you want to approve the request for "{request.title}"? This will notify the user that their request has been approved.
+              Are you sure you want to approve the request for &ldquo;{request.title}&ldquo;? This will notify the user that their request has been approved.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -148,7 +137,7 @@ const AcquisitionRequestActions = ({ request, adminId }: AcquisitionRequestActio
           <DialogHeader>
             <DialogTitle>Reject Resource Request</DialogTitle>
             <DialogDescription>
-              Please provide a reason for rejecting the request for "{request.title}". This information will be sent to the user.
+              Please provide a reason for rejecting the request for &ldquo;{request.title}&ldquo;. This information will be sent to the user.
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">

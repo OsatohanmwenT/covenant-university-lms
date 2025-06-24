@@ -3,7 +3,6 @@ import { db } from "@/database";
 import { resources } from "@/database/schema";
 import { desc } from "drizzle-orm";
 import { CalendarRange, Plus } from "lucide-react";
-import dayjs from "dayjs";
 import Link from "next/link";
 import BookCover from "../shared/BookCover";
 

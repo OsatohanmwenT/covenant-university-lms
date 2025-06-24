@@ -23,19 +23,14 @@ interface Loan {
   dateReturned: Date | null;
   status: string | null;
   user: {
-    userId: number;
     fullName: string;
     email: string;
-    role: string;
-  };
+  } | null;
   resource: {
-    resourceId: number;
-    title: string | null;
-    author: string | null;
-    uniqueIdentifier: string | null;
+    title: string;
+    uniqueIdentifier: string;
     resourceImage: string | null;
-    category: string | null;
-  };
+  } | null;
 }
 
 interface LoansTableProps {
@@ -73,7 +68,7 @@ const LoansTable = ({ loans }: LoansTableProps) => {
                 >
                   <BookCover
                     variant="extraSmall"
-                    title={loan.resource.title}
+                    title={loan?.resource?.title as string}
                     resourceImage={loan.resource?.resourceImage || ""}
                   />
                   <div className="flex flex-col">
@@ -88,8 +83,8 @@ const LoansTable = ({ loans }: LoansTableProps) => {
               </TableCell>
               <TableCell>
                 <div className="flex flex-col">
-                  <p className="font-medium text-sm">{loan.user.fullName}</p>
-                  <p className="text-xs text-light-100">{loan.user.email}</p>
+                  <p className="font-medium text-sm">{loan.user?.fullName}</p>
+                  <p className="text-xs text-light-100">{loan.user?.email}</p>
                 </div>
               </TableCell>
               <TableCell>

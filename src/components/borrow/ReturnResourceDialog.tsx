@@ -11,7 +11,7 @@ import {
   DialogFooter,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { ArrowLeft, Check, AlertCircle } from "lucide-react";
+import { Check, AlertCircle } from "lucide-react";
 import { returnResource } from "@/lib/actions/return-resource";
 import { toast } from "sonner";
 import dayjs from "dayjs";
