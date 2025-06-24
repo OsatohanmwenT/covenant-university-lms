@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { sendDueDateReminders, sendOverdueReminders } from "@/lib/services/notifications";
 import { calculateFines } from "@/lib/services/fines";
 
-export const maxDuration = 300; // 5-minute maximum execution time
+export const maxDuration = 60; // 5-minute maximum execution time
 
 // This API route will handle scheduled jobs for the library management system
 export async function POST(request: NextRequest) {
