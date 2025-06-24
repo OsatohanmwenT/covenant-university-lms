@@ -1,14 +1,13 @@
 import { sendEmailNow } from "@/lib/mail";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { to, subject, html } = req.body;
-
+export async function POST(req: NextRequest) {
   try {
+    const { to, subject, html } = await req.json();
     await sendEmailNow({ to, subject, html });
-    return res.status(200).json({ message: "Email sent" });
+    return NextResponse.json({ message: "Email sent" }, { status: 200 });
   } catch (err) {
     console.error("Email error:", err);
-    return res.status(500).json({ message: "Failed to send email" });
+    return NextResponse.json({ message: "Failed to send email" }, { status: 500 });
   }
 }
