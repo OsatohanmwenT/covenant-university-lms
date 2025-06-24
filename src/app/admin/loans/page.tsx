@@ -10,7 +10,7 @@ import LoansTable from "@/components/admin/LoansTable";
 const Page = async () => {
   const loanList = await db
     .select({
-      loanId: loan.userId,
+      loanId: loan.loanId,
       status: loan.status,
       dateBorrowed: loan.dateBorrowed,
       dueDate: loan.dueDate,
@@ -30,8 +30,6 @@ const Page = async () => {
     .from(loan)
     .leftJoin(users, eq(users.userId, loan.userId))
     .leftJoin(resources, eq(resources.resourceId, loan.resourceId));
-
-    console.log(loanList);
 
   return (
     <InfoSection

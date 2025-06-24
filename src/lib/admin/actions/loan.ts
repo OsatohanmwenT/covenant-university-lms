@@ -16,6 +16,8 @@ export const changeLoanStatus = async (id: number, status: STATUS) => {
 
     if (!existingLoan || existingLoan.length === 0) return null;
 
+    console.log("Updating loan status:", id, status);
+
     await db
       .update(loan)
       .set({ status })

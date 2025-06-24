@@ -94,6 +94,7 @@ const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type, curr
     try {
       if (type === "ROLE") {
         const result = await changeUserRole(userId, newMode as ROLE);
+        console.log(result)
 
         if (result.success) {
           toast.success("User role updated successfully");
@@ -103,6 +104,7 @@ const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type, curr
         }
       } else if (type === "STATUS") {
         const result = await changeLoanStatus(userId, newMode as STATUS);
+        console.log(result)
 
         setSelectedMode(result?.data.status);
         toast.success("Status changed successfully");
@@ -114,8 +116,6 @@ const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type, curr
   };
 
   const activeMode = availableModes.find((m) => m.id === selectedMode);
-
-  console.log("Active mode:", activeMode, selectedMode);
 
   return (
     <DropdownMenu>

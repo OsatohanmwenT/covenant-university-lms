@@ -60,7 +60,7 @@ const LoansTable = ({ loans }: LoansTableProps) => {
           </TableRow>
         ) : (
           loans.map((loan) => (
-            <TableRow key={loan.loanId}>
+            <TableRow key={`loan.loanId-${loan.loanId}-${loan.userId}-${loan.resourceId}`}>
               <TableCell>
                 <Link
                   className="flex items-center gap-2"
