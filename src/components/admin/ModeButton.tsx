@@ -95,11 +95,6 @@ interface ModeButtonProps {
 }
 
 const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type, currentUserRole }) => {
-  // Admin-only guard for role changes
-  if (type === "ROLE" && currentUserRole !== "admin") {
-    return null;
-  }
-
   const [selectedMode, setSelectedMode] = useState<ROLE | STATUS | USER_STATUS>(initialMode);
   const availableModes = type === "ROLE" ? roles : type === "STATUS" ? statuses : userStatuses;
 
