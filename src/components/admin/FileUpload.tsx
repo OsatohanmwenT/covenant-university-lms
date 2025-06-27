@@ -110,7 +110,8 @@ const FileUpload = ({
       });
 
       setUploadedFile({ filePath: uploadResponse.filePath });
-      onFileChange(uploadResponse.filePath);
+      console.log("Upload Response:", uploadResponse.url);  
+      onFileChange(uploadResponse.url);
 
       toast.success(`${uploadResponse.name} uploaded successfully`);
     } catch (error) {

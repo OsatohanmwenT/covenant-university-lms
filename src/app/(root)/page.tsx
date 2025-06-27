@@ -13,6 +13,8 @@ const Page = async () => {
     .orderBy(desc(resources.resourceId))
     .limit(13)) as Resource[];
 
+    console.log(latestResources)
+
   return (
     <main>
       <div className="h-[60vh] px-5 md:px-16">
