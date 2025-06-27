@@ -43,3 +43,4 @@ export interface AuthCredentials {
 
 export type ROLE = "admin" | "student" | "staff" | "faculty";
 export type STATUS = "returned" | "borrowed" | "late-return";
+export type USER_STATUS = "active" | "blocked";

@@ -49,13 +49,8 @@ const Header = async () => {
               </Link>
             </li>
             <li>
-              <Link href="/my-profile/notifications" className="hover:text-light-200">
+              <Link href="/notifications" className="hover:text-light-200">
                 Notifications
-              </Link>
-            </li>
-            <li>
-              <Link href="/my-profile/request" className="hover:text-light-200">
-                Request
               </Link>
             </li>
           </>

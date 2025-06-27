@@ -69,7 +69,7 @@ const ResourceTable = ({ resources }: { resources: Omit<Resource, "description">
               </TableCell>
               <TableCell>
                 <div className="flex justify-end gap-2">
-                  <Link href={`/admin/resources/${resource.resourceId}`}>
+                  <Link href={`/admin/resources/${resource.resourceId}/edit`}>
                     <Edit3 className="size-5 text-blue-500" />
                   </Link>
                   <StatusDialog

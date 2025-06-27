@@ -10,16 +10,14 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const id = (await params).id;
   const session = await auth();
 
-  const resourceId = Number(id);
-  
-  if (isNaN(resourceId) || resourceId <= 0) {
+  if (isNaN(Number(id)) || Number(id) <= 0) {
     return <div>Invalid resource ID</div>;
   }
 
   const [resourceDetails] = await db
     .select()
     .from(resources)
-    .where(eq(resources.resourceId, resourceId))
+    .where(eq(resources.resourceId, Number(id)))
     .limit(1);
 
   if (!resourceDetails) redirect("/404");   
@@ -28,7 +26,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
       <ResourceOverview
         {...resourceDetails}
         publicationDate={resourceDetails.publicationDate ?? new Date(0)}
-        userId={session?.user?.id as string}
+        userId={session?.user?.id || "0"}
       />
       <div className="book-details">
         <div className="flex-[1.5]">

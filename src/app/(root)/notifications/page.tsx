@@ -81,25 +81,25 @@ const NotificationsPage = async () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Notifications</h1>
+        <h1 className="text-3xl font-bold text-light-200">Notifications</h1>
         <p className="text-gray-500 mt-2">
           Stay updated with important information about your library resources
         </p>
       </div>
       
       <Tabs defaultValue="active" className="w-full">
-        <TabsList className="mb-6">
-          <TabsTrigger value="active">
+        <TabsList className="mb-6 bg-dark-300 text-white backdrop-blur-lg">
+          <TabsTrigger className="text-white data-[state=active]:bg-dark-100" value="active">
             Active ({activeNotifications.length})
           </TabsTrigger>
-          <TabsTrigger value="archived">
+          <TabsTrigger className="text-white data-[state=active]:bg-dark-100" value="archived">
             Archived ({archivedNotifications.length})
           </TabsTrigger>
         </TabsList>
         
         <TabsContent value="active">
           {activeNotifications.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
+            <div className="text-center py-12 bg-white/5 backdrop-blur-lg rounded-lg">
               <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
               <p className="text-lg text-gray-600">
                 You have no active notifications
@@ -160,7 +160,7 @@ const NotificationsPage = async () => {
         
         <TabsContent value="archived">
           {archivedNotifications.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
+            <div className="text-center py-12 bg-white/5 backdrop-blur-lg rounded-lg">
               <p className="text-gray-500">No archived notifications</p>
             </div>
           ) : (

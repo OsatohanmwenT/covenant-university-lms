@@ -76,40 +76,43 @@ export const borrowResource = async (params: {
       status: "borrowed",
     });
 
-    await queueEmail({
-      email: user.email,
-      subject: "📚 Book Borrowed Successfully – CU LMS",
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto;">
-          <h2 style="color: #4CAF50;">Book Borrowed Successfully</h2>
-          <p>Hi ${user.fullName},</p>
+    // Try to send email, but don't fail the borrowing if email fails
+    try {
+      await queueEmail({
+        email: user.email,
+        subject: "📚 Book Borrowed Successfully – CU LMS",
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto;">
+            <h2 style="color: #4CAF50;">Book Borrowed Successfully</h2>
+            <p>Hi ${user.fullName},</p>
 
-      <p>
-        You have successfully borrowed the book titled 
-        <strong>${bookTitle}</strong> from the Covenant University Library.
-      </p>
+        <p>
+          You have successfully borrowed the book titled 
+          <strong>${bookTitle}</strong> from the Covenant University Library.
+        </p>
 
-      <p>
-        <strong>Date Borrowed:</strong> ${dayjs().format("MMMM D, YYYY")}<br/>
-        <strong>Due Date:</strong> ${dayjs(dueDate).format("MMMM D, YYYY")}
-      </p>
+        <p>
+          <strong>Date Borrowed:</strong> ${dayjs().format("MMMM D, YYYY")}<br/>
+          <strong>Due Date:</strong> ${dayjs(dueDate).format("MMMM D, YYYY")}
+        </p>
 
-      <p>
-        Please make sure to return the book on or before the due date to avoid any penalties.
-      </p>
+        <p>
+          Please make sure to return the book on or before the due date to avoid any penalties.
+        </p>
 
-      <p>Happy reading! 📖</p>
+        <p>Happy reading! 📖</p>
 
-      <hr style="margin: 24px 0;" />
-      <p style="font-size: 12px; color: #888;">
-        This is an automated message from CU Library Management System.<br />
-        If you have any questions, please contact the library admin.
-      </p>
-    </div>
-  `,
-    });
-
-    console.log("Resource borrowed successfully:", loan);
+        <hr style="margin: 24px 0;" />
+        <p style="font-size: 12px; color: #888;">
+          This is an automated message from CU Library Management System.<br />
+          If you have any questions, please contact the library admin.
+        </p>
+      </div>
+    `,
+      });
+    } catch (emailError) {
+      console.error("Failed to send borrowing email:", emailError);
+    }
 
     return {
       success: true,

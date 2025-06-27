@@ -2,7 +2,7 @@
 
 import { db } from "@/database";
 import { users } from "@/database/schema";
-import { ROLE } from "@/types";
+import { ROLE, USER_STATUS } from "@/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -104,6 +104,41 @@ export const approveUser = async (id: number) => {
     return {
       success: false,
       error: "An error occurred while approving user access",
+    };
+  }
+};
+
+export const changeUserStatus = async (id: number, status: USER_STATUS) => {
+  try {
+    const user = await db.select().from(users).where(eq(users.userId, id)).limit(1);
+
+    if (!user.length && !user[0].userId)
+      return {
+        success: false,
+        error: "User not found",
+      };
+
+    const isActive = status === "active";
+    
+    await db
+      .update(users)
+      .set({ isActive: isActive })
+      .where(eq(users.userId, id));
+
+    revalidatePath("/admin/users");
+
+    // Fetch the updated user
+    const updatedUser = await db.select().from(users).where(eq(users.userId, id)).limit(1);
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(updatedUser[0])),
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      error: "An error occurred while updating user status",
     };
   }
 };

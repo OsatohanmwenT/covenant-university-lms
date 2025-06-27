@@ -12,13 +12,13 @@ import {
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { changeUserRole } from "@/lib/admin/actions/user";
+import { changeUserRole, changeUserStatus } from "@/lib/admin/actions/user";
 import { toast } from "sonner";
-import { ROLE, STATUS } from "@/types";
+import { ROLE, STATUS, USER_STATUS } from "@/types";
 import { changeLoanStatus } from "@/lib/admin/actions/loan";
 
 interface Mode {
-  id: ROLE | STATUS;
+  id: ROLE | STATUS | USER_STATUS;
   name: string;
   color: string;
   bgColor: string;
@@ -72,11 +72,26 @@ const statuses: Mode[] = [
   },
 ];
 
+const userStatuses: Mode[] = [
+  {
+    id: "active",
+    name: "ACTIVE",
+    color: "text-green-700",
+    bgColor: "bg-green-50 hover:!bg-green-200",
+  },
+  {
+    id: "blocked",
+    name: "BLOCKED",
+    color: "text-red-700",
+    bgColor: "bg-red-50 hover:!bg-red-200",
+  },
+];
+
 interface ModeButtonProps {
-  initialMode: ROLE | STATUS;
+  initialMode: ROLE | STATUS | USER_STATUS;
   userId: number;
-  type: "ROLE" | "STATUS";
-  currentUserRole?: ROLE | STATUS | string | null; // Add this prop
+  type: "ROLE" | "STATUS" | "USER_STATUS";
+  currentUserRole?: ROLE | STATUS | string | null;
 }
 
 const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type, currentUserRole }) => {
@@ -85,10 +100,10 @@ const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type, curr
     return null;
   }
 
-  const [selectedMode, setSelectedMode] = useState<ROLE | STATUS>(initialMode);
-  const availableModes = type === "ROLE" ? roles : statuses;
+  const [selectedMode, setSelectedMode] = useState<ROLE | STATUS | USER_STATUS>(initialMode);
+  const availableModes = type === "ROLE" ? roles : type === "STATUS" ? statuses : userStatuses;
 
-  const handleChangeMode = async (newMode: ROLE | STATUS) => {
+  const handleChangeMode = async (newMode: ROLE | STATUS | USER_STATUS) => {
     setSelectedMode(newMode);
 
     try {
@@ -101,6 +116,16 @@ const ModeButton: React.FC<ModeButtonProps> = ({ initialMode, userId, type, curr
           setSelectedMode(result.data.role);
         } else {
           toast.error(result.error);
+        }
+      } else if (type === "USER_STATUS") {
+        // Handle user account status changes
+        const result = await changeUserStatus(userId, newMode as USER_STATUS);
+        
+        if (result.success) {
+          toast.success(`User ${newMode === "active" ? "activated" : "blocked"} successfully`);
+          setSelectedMode(newMode);
+        } else {
+          toast.error(result.error || "Failed to update user status");
         }
       } else if (type === "STATUS") {
         const result = await changeLoanStatus(userId, newMode as STATUS);

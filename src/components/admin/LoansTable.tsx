@@ -39,7 +39,7 @@ interface LoansTableProps {
 
 const LoansTable = ({ loans }: LoansTableProps) => {
   return (
-    <Table>
+    <Table className="hide-scrollbar !max-w-[1000px]">
       <TableHeader className="table-head">
         <TableRow>
           <TableHead className="max-xl:w-[200px]">Book</TableHead>

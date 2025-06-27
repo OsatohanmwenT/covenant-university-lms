@@ -1,3 +1,5 @@
+import { Receipt } from "lucide-react";
+
 export const FIELD_NAMES = {
   fullName: "Full name",
   email: "Email",
@@ -62,17 +64,12 @@ export const adminSideBarLinks = [
     text: "Loan Records",
   },
   {
-    img: "/icons/admin/user.svg",
-    route: "/admin/account-requests",
-    text: "Account Requests",
-  },
-  {
-    img: "/icons/admin/",
+    img: "/icons/admin/receipt.svg",
     route: "/admin/fines",
     text: "Fines",
   },
   {
-    img: "/icons/admin/bookmark.svg",
+    img: "/icons/admin/calendar.svg",
     route: "/admin/requests",
     text: "Acquisition Requests",
   },

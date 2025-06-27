@@ -374,11 +374,11 @@
   }
 
   .admin-sidebar .link {
-    @apply flex flex-row items-center w-full gap-2 rounded-lg px-5 py-3.5 max-md:justify-center;
+    @apply flex flex-row items-center w-full gap-2 rounded-lg px-3 py-3 max-md:justify-center;
   }
 
   .admin-sidebar .link p {
-    @apply text-base font-medium max-xl:hidden;
+    @apply text-sm font-medium max-xl:hidden;
   }
 
   .admin-sidebar .user {

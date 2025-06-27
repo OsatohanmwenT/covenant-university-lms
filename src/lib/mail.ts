@@ -1,10 +1,12 @@
 import nodemailer from "nodemailer";
 
-export const transporter = nodemailer.createTransport({
-  service: "gmail", // or use 'hotmail', 'yahoo', etc.
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
+  secure: false, // true for 465, false for 587
   auth: {
-    user: process.env.SMTP_EMAIL, // e.g., your Gmail
-    pass: process.env.SMTP_PASSWORD, // Gmail App Password
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASSWORD,
   },
 });
 
@@ -18,7 +20,7 @@ export const sendEmailNow = async ({
   html: string;
 }) => {
   await transporter.sendMail({
-    from: `"CU LMS" <${process.env.SMTP_EMAIL}>`,
+    from: `"CU LMS" <${process.env.SMTP_USER}>`,
     to,
     subject,
     html,

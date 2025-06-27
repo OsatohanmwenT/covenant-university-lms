@@ -20,6 +20,45 @@ const ResourceOverview = async ({
   resourceImage,
   userId,
 }: Props) => {
+  // Validate and convert userId to number
+  const userIdNum = parseInt(userId);
+  const resourceIdNum = Number(resourceId);
+  
+  if (isNaN(userIdNum) || isNaN(resourceIdNum)) {
+    return (
+      <section className="book-overview">
+        <div className="flex flex-1 flex-col gap-5">
+          <h1>{title}</h1>
+          <div className="book-info">
+            <p>
+              By <span className="font-semibold text-light-200">{author}</span>
+            </p>
+            <p>
+              Category{" "}
+              <span className="font-semibold text-light-200">{category}</span>
+            </p>
+          </div>
+          <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+            <p className="text-red-700 text-sm">Please log in to borrow this resource.</p>
+          </div>
+        </div>
+        <div
+          className={cn(
+            "relative transition-all duration-300",
+            variantStyles["wide"]
+          )}
+        >
+          <Image
+            src={resourceImage || "/images/no-books.png"}
+            alt={title || "Book cover"}
+            fill
+            className="object-fill rounded-md"
+          />
+        </div>
+      </section>
+    );
+  }
+
   const [user] = await db
     .select({
       userId: users.userId,
@@ -32,15 +71,17 @@ const ResourceOverview = async ({
     .leftJoin(
       loan,
       and(
-        eq(loan.userId, Number(userId)),
-        eq(loan.resourceId, Number(resourceId))
+        eq(loan.userId, userIdNum),
+        eq(loan.resourceId, resourceIdNum)
       )
     )
-    .where(eq(users.userId, Number(userId)))
+    .where(eq(users.userId, userIdNum))
     .limit(1);
 
+    console.log("User Data:", user);
+
   const borrowingEligibility = {
-    isEligible: user.isActive,
+    isEligible: user?.isActive || false,
     message: "You are not eligible to borrow this book.",
   };
 
@@ -58,11 +99,11 @@ const ResourceOverview = async ({
             <span className="font-semibold text-light-200">{category}</span>
           </p>
         </div>
-        {borrowingEligibility.isEligible && (
+        {borrowingEligibility.isEligible && user && (
           <BorrowResource
-            isBorrowed={user?.isBorrowed as "1" | "0"}
-            resourceId={resourceId}
-            userId={Number(userId)}
+            isBorrowed={user?.isBorrowed === "1" ? "1" : "0"}
+            resourceId={resourceIdNum}
+            userId={userIdNum}
             borrowingEligibility={borrowingEligibility}
           />
         )}
