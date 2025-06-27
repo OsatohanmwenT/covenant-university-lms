@@ -114,7 +114,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
                 asChild
                 className="bg-primary-admin py-3 text-white"
               >
-                <Link href={`/admin/resources/edit/${resourceDetail.resourceId}`}>
+                <Link href={`/admin/resources/${resourceDetail.resourceId}/edit`}>
                   <Image
                     src="/icons/admin/edit.svg"
                     alt="edit icon"
