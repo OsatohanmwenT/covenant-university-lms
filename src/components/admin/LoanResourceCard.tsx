@@ -39,7 +39,7 @@ const LoanResourceCard = ({ resource }: { resource: ResourceListItem }) => {
         </div>
       </div>
       <button className="p-2 bg-white hover:bg-light-100 transition-colors rounded-md">
-        <Link href={`/admin/books/${resource.resourceId}`}>
+        <Link href={`/admin/resources/${resource.resourceId}`}>
           <Eye className="size-5" />
         </Link>
       </button>
