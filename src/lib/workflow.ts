@@ -1,5 +1,7 @@
 import { Client as QStashClient } from "@upstash/qstash";
-import { sendEmailNow } from "./mail";
+import { config } from "dotenv";
+
+config({ path: ".env.local" });
 
 const client = new QStashClient({
   token: process.env.QSTASH_TOKEN!,
@@ -16,13 +18,25 @@ export const queueEmail = async ({
 }) => {
   try {
     if (process.env.NODE_ENV === 'development') {
-      // In development, send email directly without QStash
-      console.log('📧 Sending email directly in development mode to:', email);
-      await sendEmailNow({
-        to: email,
-        subject,
-        html,
+      // In development, call the API directly
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: email,
+          subject,
+          html,
+        }),
       });
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('Email API error:', error);
+        throw new Error(`Email API error: ${response.status}`);
+      }
+
       console.log('📧 Email sent successfully in development mode');
       return;
     }

@@ -78,7 +78,6 @@ export const borrowResource = async (params: {
 
     // Try to send email, but don't fail the borrowing if email fails
     try {
-      console.log(`📧 Attempting to send borrowing email to: ${user.email}`);
       await queueEmail({
         email: user.email,
         subject: "📚 Book Borrowed Successfully – CU LMS",
@@ -111,7 +110,6 @@ export const borrowResource = async (params: {
       </div>
     `,
       });
-      console.log(`📧 Email queued successfully for: ${user.email}`);
     } catch (emailError) {
       console.error("Failed to send borrowing email:", emailError);
     }
